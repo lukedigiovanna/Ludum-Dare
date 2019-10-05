@@ -21,7 +21,7 @@ public class Ship {
 	private float maxFood = 10.0f, food = 10.0f; //kilograms of food
 	private final float foodConsumedPerPerson = 1.0f;
 	
-	private float maxScraps = 10.0f, scraps = 10.0f; //kilograms of food
+	private int maxScraps = 100, scraps = 0; //kilograms of food
 	
 	private int secondsPerDay = 180; //3 minutes per day
 	
