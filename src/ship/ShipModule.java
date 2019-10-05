@@ -11,6 +11,7 @@ public abstract class ShipModule {
 	public ShipModule(Ship inShip)	{
 		myShip = inShip;
 	}
+	
 	public void update(float deltaTime)	{
 		tickingTimer -= deltaTime;
 		if(tickingTimer<=0.0f)	{
@@ -18,6 +19,7 @@ public abstract class ShipModule {
 			tickingTimer = generationCooldown;
 		}
 	}
+	
 	protected abstract void generateResource();
 	public abstract BufferedImage getImage();
 
