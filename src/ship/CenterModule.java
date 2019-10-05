@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import main.SpriteCodex;
 
 public class CenterModule extends ShipModule {
-	public static int price = 0;
+	public static int price = 100;
 
 	public CenterModule(Ship inShip) {
 		super(inShip, 0.5f, 0.0f);
