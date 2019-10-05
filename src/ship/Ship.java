@@ -197,17 +197,19 @@ public class Ship {
 		g.drawImage(SpriteCodex.POWER_SYMBOL, x, y, height, height, null);
 		x += 25;
 		this.drawBar(g,x,y,55,height,this.getPowerPercent(),Color.YELLOW);
-		x += 55;
-		x += 5;
+		x += 60;
 		g.drawImage(SpriteCodex.WATER_SYMBOL, x, y, height, height, null);
 		x += 25;
 		this.drawBar(g,x,y,55,height,this.getWaterPercent(),Color.BLUE);
-		x += 55;
-		x += 5;
+		x += 60;
 		g.drawImage(SpriteCodex.FOOD_SYMBOL, x, y, height, height, null);
 		x += 25;
 		this.drawBar(g, x, y, 55, height, this.getFoodPercent(), Color.ORANGE);
 		x+= 60;
+		g.drawImage(SpriteCodex.HAPPINESS_SYMBOL, x, y, height, height, null);
+		x+=25;
+		this.drawBar(g, x, y, 55, height, this.happiness, Color.GREEN);
+		x+=60;
 		g.drawImage(SpriteCodex.SCRAPS_SYMBOL, x, y, height, height, null);
 		g.setColor(Color.WHITE);
 		x += 25;
@@ -238,6 +240,10 @@ public class Ship {
 		g.setColor(Color.RED);
 		y += 21;
 		g.drawString("Unemployed: "+(population-this.employedPopulation), x, y+18);
+	}
+	
+	public void addHappiness(float val) {
+		this.happiness = MathUtils.max(this.happiness+val, 1.0f);
 	}
 	
 	public float getCurrentPower() {

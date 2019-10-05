@@ -19,9 +19,7 @@ public class SimpleHydrolysisModule extends ShipModule {
 
 	@Override
 	public BufferedImage getImage() {
-		int index = (int)(SpriteCodex.SIMPLE_HYDROLYSIS_MODULE.length*this.getGenerationPercent());
-		index%= SpriteCodex.SIMPLE_HYDROLYSIS_MODULE.length;
-		return SpriteCodex.SIMPLE_HYDROLYSIS_MODULE[index];
+		return SpriteCodex.get(SpriteCodex.SIMPLE_HYDROLYSIS_MODULE, this.getGenerationPercent());
 	}
 
 	@Override

@@ -31,7 +31,6 @@ public class Game {
 		ship.update(elapsedTime);
 		handleStars();
 		System.out.println(ship);
-		System.out.println(getX()+", "+getY());
 	}
 	
 	public enum Screen {
@@ -63,13 +62,8 @@ public class Game {
 		case GAME:
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-<<<<<<< HEAD
 			renderStars(g);
-			float margin = 0.20f;
-			ship.draw(g, (int)((1.0-margin)*DISPLAY_WIDTH/2), DISPLAY_HEIGHT/2);
-=======
 			float margin = 0.23f;
->>>>>>> branch 'master' of https://github.com/lukedigiovanna/Ludum-Dare.git
 			ship.drawBars(g,10,10);
 			ship.draw(g, (int)((1.0-margin)*DISPLAY_WIDTH/2), DISPLAY_HEIGHT/2);
 			//draw shop menu
@@ -82,7 +76,7 @@ public class Game {
 			g.setFont(new Font("Arial",Font.BOLD | Font.ITALIC, 24));
 			g.setColor(Color.WHITE);
 			g.drawString("SHOP",shopLeft+shopWidth/2-g.getFontMetrics().stringWidth("SHOP")/2,shopTop+40);
-			int x = shopLeft, y = shopTop+40;
+			int x = shopLeft, y = shopTop+50;
 			drawShopItem(g, "Potato Farm", PotatoFarmModule.price, "food", x, y);
 			y+=30;
 			drawShopItem(g, "Basic Hydrolysis",SimpleHydrolysisModule.price, "water", x, y);
@@ -91,21 +85,25 @@ public class Game {
 			y+=30;
 			drawShopItem(g, "Scrap Storage", StorageModule.price, "scraps", x, y);
 			y+=30;
+			drawShopItem(g, "Game Room", 9999, "happiness", x, y);
+			y+=30;
 			drawShopItem(g, "Synthetic Meats", 9999, "food", x, y);
 			y+=30;
 			drawShopItem(g, "Super Hydrolysis", 9999, "water", x, y);
 			y+=30;
-			drawShopItem(g, "Star Sucker",9999, "power", x,y);
+			drawShopItem(g, "Solar Reactor",9999, "power", x,y);
 			y+=30;
 			drawShopItem(g, "Scrap Synthesizer", 9999, "scraps", x, y);
+			y+=30;
+			drawShopItem(g, "Park", 9999, "happiness", x, y);
 			break;
 		case GAME_OVER:
 			break;
 		}
 	}
-		int starCount = 50;
-		int movingVelocity = 5;
-		Point[] stars = new Point[starCount];
+		private int starCount = 50;
+		private int movingVelocity = 5;
+		private Point[] stars = new Point[starCount];
 		public void populateStars()	{
 			//produce stars in random locations
 			for(int i = 0; i<stars.length; i++)	{
@@ -156,6 +154,7 @@ public class Game {
 			resourceImage = SpriteCodex.SCRAPS_SYMBOL;
 			break;
 		case "happiness":
+			resourceImage = SpriteCodex.HAPPINESS_SYMBOL;
 			break;
 		}
 		if (resourceImage != null) {
@@ -181,6 +180,9 @@ public class Game {
 					case "Basic Hydrolysis":
 						ship.addModule(new SimpleHydrolysisModule(ship));
 						break;
+					case "Solar Panels":
+						ship.addModule(new SolarPanelModule(ship));
+						break;
 					}
 					ship.useScraps(price);
 				}
@@ -193,7 +195,9 @@ public class Game {
 		if (ship.getCurrentScraps() >= price) //we can afford
 			g.setColor(Color.GREEN);
 		g.drawString("$"+price, buttonX+buttonWidth+5, buttonY+buttonHeight-3);
-		bought = bought && !this.isLeftMouseDown();
+		if (bought && !this.isLeftMouseDown()) {
+			bought = false;
+		}
 	}
 	
 	public int tickSpeed() {

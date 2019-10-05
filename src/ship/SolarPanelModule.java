@@ -2,12 +2,14 @@ package ship;
 
 import java.awt.image.BufferedImage;
 
+import main.SpriteCodex;
+
 public class SolarPanelModule extends ShipModule {
 
 	public static int price = 200;
 	
 	public SolarPanelModule(Ship inShip) {
-		super(inShip, 0.1f);
+		super(inShip, 0.01f);
 	}
 
 	@Override
@@ -17,7 +19,7 @@ public class SolarPanelModule extends ShipModule {
 
 	@Override
 	public BufferedImage getImage() {
-		return null;
+		return SpriteCodex.SOLAR_PANEL;
 	}
 
 	@Override

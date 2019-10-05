@@ -2,12 +2,14 @@ package ship;
 
 import java.awt.image.BufferedImage;
 
+import main.SpriteCodex;
+
 public class StorageModule extends ShipModule {
 	public static int price = 75;
 	
 	public StorageModule(Ship inShip) {
 		super(inShip, 10000.0f);
-		this.getShip().addScrapsStorage(100);
+		this.getShip().addScrapsStorage(150);
 	}
 
 	@Override
@@ -17,7 +19,7 @@ public class StorageModule extends ShipModule {
 
 	@Override
 	public BufferedImage getImage() {
-		return null;
+		return SpriteCodex.SCRAPS_STORAGE;
 	}
 
 	@Override
