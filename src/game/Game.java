@@ -7,9 +7,9 @@ import ship.Ship;
 
 public class Game {
 	
-	public static final int DISPLAY_WIDTH = 640, DISPLAY_HEIGHT = 480;
+	public static final int DISPLAY_WIDTH = 860, DISPLAY_HEIGHT = 645;
 	
-	private Screen currentScreen = Screen.MAIN;
+	private Screen currentScreen = Screen.GAME;
 	
 	private ElapsedTime timer;
 	
@@ -42,6 +42,10 @@ public class Game {
 			g.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 			break;
 		case GAME:
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+			ship.draw(g, DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2);
+			ship.drawBars(g,10,10);
 			break;
 		case GAME_OVER:
 			break;

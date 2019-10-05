@@ -21,9 +21,10 @@ public class Program {
 		
 			return img;
 		}
-		catch (Exception e) {};
+		catch (Exception e) {
+			return imgNotFound();	
+		}
 		
-		return imgNotFound();
 	}
 	
 	private static BufferedImage imgNotFound() {

@@ -1,8 +1,12 @@
 package ship;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
+
+import main.SpriteCodex;
 
 public class Ship {
 	
@@ -28,6 +32,10 @@ public class Ship {
 	}
 	
 	public void update(float elapsedTime) {
+		for (ShipModule mod : modules) {
+			mod.update(elapsedTime);
+		}
+		
 		//power consumed by the ship for movement
 		float powerUsed = elapsedTime * powerDepletionRate;
 		power -= powerUsed;
@@ -46,6 +54,42 @@ public class Ship {
 		for (ShipModule module : modules) {
 			
 		}
+	}
+	
+	private void drawBar(Graphics g, int x, int y, int width, int height, float percent, Color color) {
+		g.setColor(Color.GRAY);
+		g.fillRect(x-2, y-2, width+4, height+4);
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(x, y, width, height);
+		g.setColor(color);
+		g.fillRect(x, y, (int)(width * percent), height);
+	}
+	
+	/*
+	 * top left x and y
+	 */
+	public void drawBars(Graphics g, int x, int y) {
+		//energy then water then food then scraps
+		int height = 20;
+		g.drawImage(SpriteCodex.POWER_SYMBOL, x, y, height, height, null);
+		x += 25;
+		this.drawBar(g,x,y,55,height,this.getPowerPercent(),Color.YELLOW);
+		x += 55;
+		x += 5;
+		g.drawImage(SpriteCodex.WATER_SYMBOL, x, y, height, height, null);
+		x += 25;
+		this.drawBar(g,x,y,55,height,this.getWaterPercent(),Color.BLUE);
+		x += 55;
+		x += 5;
+		g.drawImage(SpriteCodex.FOOD_SYMBOL, x, y, height, height, null);
+		x += 25;
+		this.drawBar(g, x, y, 55, height, this.getFoodPercent(), Color.ORANGE);
+		x+= 60;
+		g.drawImage(SpriteCodex.SCRAPS_SYMBOL, x, y, height, height, null);
+		g.setColor(Color.WHITE);
+		x += 25;
+		g.setFont(new Font("Arial",Font.BOLD,height-2));
+		g.drawSting(this.scraps+"",x,y);
 	}
 	
 	public float getCurrentPower() {

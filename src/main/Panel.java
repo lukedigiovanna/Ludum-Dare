@@ -17,10 +17,8 @@ public class Panel extends JPanel {
 			public void run() {
 				while (true) {
 					try {
-						System.out.println("what the fuck");
 						Thread.sleep(game.tickSpeed());
 						game.gameLoop();
-						System.out.println("gay");
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
