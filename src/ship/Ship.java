@@ -41,6 +41,7 @@ public class Ship {
 		modules = new ArrayList<ShipModule>();
 		addModule(new CenterModule(this));
 		addModule(new PotatoFarmModule(this));
+		addModule(new SimpleHydrolysisModule(this));
 	}
 	
 	public void addModule(ShipModule mod) {
