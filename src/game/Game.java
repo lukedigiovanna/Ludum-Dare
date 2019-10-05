@@ -7,7 +7,7 @@ import ship.Ship;
 
 public class Game {
 	
-	public static final int DISPLAY_WIDTH = 860, DISPLAY_HEIGHT = 645;
+	public static final int DISPLAY_WIDTH = 16*50, DISPLAY_HEIGHT = 9*50;
 	
 	private Screen currentScreen = Screen.GAME;
 	
