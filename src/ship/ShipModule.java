@@ -4,16 +4,15 @@ import java.awt.image.BufferedImage;
 
 public abstract class ShipModule {
 	private boolean employed = false;
-	private int price;
+	//private int price; price set as static variable in the subclasses
 	protected int moduleLevel = 1;
 	private float generationCooldown; //how many days
 	private float tickingTimer;
 	private Ship myShip;
 	
-	public ShipModule(Ship inShip, int price, float generationCooldown)	{
+	public ShipModule(Ship inShip, float generationCooldown)	{
 		myShip = inShip;
 		this.generationCooldown = generationCooldown;
-		this.price = price;
 	}
 	
 	public void update(float deltaTime)	{

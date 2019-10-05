@@ -5,9 +5,17 @@ import java.awt.image.BufferedImage;
 import main.SpriteCodex;
 
 public class CenterModule extends ShipModule {
+<<<<<<< HEAD
 
 	public CenterModule(Ship inShip) {
 		super(inShip, 0, 0.5f);
+=======
+	
+	public static int price = 0;
+	
+	public CenterModule(Ship inShip) {
+		super(inShip, 0.5f);
+>>>>>>> branch 'master' of https://github.com/lukedigiovanna/Ludum-Dare.git
 	}
 
 	@Override

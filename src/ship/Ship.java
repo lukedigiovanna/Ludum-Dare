@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import game.Game;
 import misc.MathUtils;
 import main.SpriteCodex;
 
@@ -16,7 +17,7 @@ public class Ship {
 	private float maxPower = 50.0f, power = 50.0f;
 	private float powerDepletionRate = 10.0f; // per day
 	
-	private float maxWater = 10.0f, water = 5.0f; //available water in litres
+	private float maxWater = 10.0f, water = 10.0f; //available water in litres
 	private final float waterConsumedPerPerson = 1.5f; //per day
 	
 	private float maxFood = 10.0f, food = 10.0f; //kilograms of food
@@ -29,10 +30,12 @@ public class Ship {
 	
 	private List<ShipModule> modules;
 	
+	private Game game;
 	
 	private PlanetTimer pt = new PlanetTimer(this);
 	//f
-	public Ship() {
+	public Ship(Game game) {
+		this.game = game;
 		modules = new ArrayList<ShipModule>();
 		modules.add(new CenterModule(this));
 		modules.get(0).employ();
@@ -231,6 +234,10 @@ public class Ship {
 	
 	public void addScraps(int add) {
 		this.scraps = MathUtils.max(this.scraps+add, this.maxScraps);
+	}
+	
+	public void addScrapsStorage(int add) {
+		this.maxScraps+=add;
 	}
 	
 	public String toString() {
