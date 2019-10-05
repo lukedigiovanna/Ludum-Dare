@@ -97,7 +97,7 @@ public class Ship {
 		g.setColor(Color.WHITE);
 		x += 25;
 		g.setFont(new Font("Arial",Font.BOLD,height-2));
-		g.drawSting(this.scraps+"",x,y);
+		g.drawString(this.scraps+"",x,y);
 	}
 	
 	public float getCurrentPower() {
