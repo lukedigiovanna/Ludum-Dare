@@ -4,8 +4,10 @@ import java.awt.image.BufferedImage;
 
 public class PotatoFarmModule extends ShipModule {
 
-	public PotatoFarmModule(Ship inShip, int price, float generationCooldown) {
-		super(inShip, price, generationCooldown);
+	public static int price = 100;
+	
+	public PotatoFarmModule(Ship inShip) {
+		super(inShip, 1.0f);
 	}
 
 	@Override

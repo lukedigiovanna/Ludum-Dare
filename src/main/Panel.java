@@ -1,6 +1,9 @@
 package main;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.*;
@@ -40,6 +43,51 @@ public class Panel extends JPanel {
 			}
 		});
 		frameLoop.start();
+		
+		this.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				isMouseDown = true;
+			}
+			public void mouseReleased(MouseEvent e) {
+				isMouseDown = false;
+			}
+		});
+		
+		this.addMouseMotionListener(new MouseMotionListener() {
+
+			@Override
+			public void mouseDragged(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				lastMouse = e;
+			}
+			
+		});
+	}
+	
+	private MouseEvent lastMouse = null;
+	private boolean isMouseDown = false;
+	
+	public float getMouseXPercent() {
+		if (lastMouse == null)
+			return -1;
+		else
+			return (float)lastMouse.getX()/this.getWidth();
+	}
+	
+	public float getMouseYPercent() {
+		if (lastMouse == null)
+			return -1;
+		else
+			return (float)lastMouse.getY()/this.getHeight();
+	}
+	
+	public boolean isMouseDown() {
+		return isMouseDown;
 	}
 	
 	private BufferedImage image = new BufferedImage(Game.DISPLAY_WIDTH,Game.DISPLAY_HEIGHT,BufferedImage.TYPE_INT_ARGB);
