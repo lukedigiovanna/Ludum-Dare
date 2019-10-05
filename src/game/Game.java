@@ -214,7 +214,7 @@ public class Game {
 		}
 	}
 		private int starCount = 50;
-		private int movingVelocity = 20;
+		private int movingVelocity = 3;
 		private Point[] stars = new Point[starCount];
 		public void populateStars()	{
 			//produce stars in random locations
