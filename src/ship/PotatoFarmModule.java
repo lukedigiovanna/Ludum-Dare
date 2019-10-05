@@ -7,12 +7,12 @@ public class PotatoFarmModule extends ShipModule {
 	public static int price = 100;
 	
 	public PotatoFarmModule(Ship inShip) {
-		super(inShip, 1.0f);
+		super(inShip, 2.0f);
 	}
 
 	@Override
 	protected void generateResource() {
-		
+		this.getShip().addFood(2.0f);
 	}
 
 	@Override
