@@ -19,8 +19,8 @@ public class PotatoFarmModule extends ShipModule {
 
 	@Override
 	public BufferedImage getImage() {
-		
 		int index = (int)(SpriteCodex.POTATO_FARM.length*this.getGenerationPercent());
+		index%=SpriteCodex.POTATO_FARM.length;
 		return SpriteCodex.POTATO_FARM[index];
 	}
 

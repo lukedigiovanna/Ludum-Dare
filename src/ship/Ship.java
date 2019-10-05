@@ -3,6 +3,7 @@ package ship;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Ship {
 	private float maxFood = 10.0f, food = 10.0f; //kilograms of food
 	private final float foodConsumedPerPerson = 1.0f; //per day
 	
-	private int maxScraps = 100, scraps = 0; //kilograms of food
+	private int maxScraps = 100, scraps = 100; //kilograms of food
 	
 	private float secondsPerDay = 10.0f; //2 minutes per day
 	private float day = 0;
@@ -118,29 +119,40 @@ public class Ship {
 	
 	public void draw(Graphics g, int centerX, int centerY) {
 		int ind = 0;
-		int s = 64;
+		int size = 64;
 		for (ShipModule module : modules) {
+			int x = 0, y = 0;
 			if (ind == 0) {
-				g.drawImage(module.getImage(),centerX-s/2, centerY-s/2,s,s,null);
+				x = centerX-size/2;
+				y = centerY-size/2;
 			}
 			else {
 				int nInd = (ind-1)%4;
 				int dist = (ind-1)/4+1;
 				switch (nInd) {
 				case 0: //up
-					g.drawImage(module.getImage(), centerX-s/2, centerY-s/2-dist*s, s, s, null);
+					x = centerX-size/2;
+					y = centerY-size/2-dist*size;
 					break;
 				case 1: //right
-					g.drawImage(module.getImage(), centerX-s/2+dist*s, centerY-s/2, s, s, null);
+					x = centerX-size/2+dist*size;
+					y = centerY-size/2;
 					break;
 				case 2: //down
-					g.drawImage(module.getImage(), centerX-s/2, centerY-s/2+dist*s, s, s, null);
+					x = centerX-size/2;
+					y = centerY-size/2+dist*size;
 					break;
 				case 3: //left
-					g.drawImage(module.getImage(), centerX-s/2-dist*s, centerY-s/2, s, s, null);
+					x = centerX-size/2-dist*size;
+					y = centerY-size/2;
 					break;
 				}
 			}
+			g.drawImage(module.getImage(), x, y, size, size, null);
+			BufferedImage person = SpriteCodex.PERSON;
+			int personX = x+size/2-(person.getWidth()), personY = y+size/2-person.getHeight();
+			if (module.isEmployed())
+				g.drawImage(person, personX, personY, person.getWidth()*2, person.getHeight()*2, null);
 			ind++;
 		}
 		//draw message if there is one
@@ -275,8 +287,16 @@ public class Ship {
 		this.scraps = MathUtils.max(this.scraps+add, this.maxScraps);
 	}
 	
+	public void useScraps(int use) {
+		this.scraps -= use;
+	}
+	
 	public void addScrapsStorage(int add) {
 		this.maxScraps+=add;
+	}
+	
+	public int getCurrentScraps() {
+		return this.scraps;
 	}
 	
 	public boolean employ() {

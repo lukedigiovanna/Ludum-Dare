@@ -25,8 +25,12 @@ public abstract class ShipModule {
 		}
 	}
 	
+	public boolean isEmployed() {
+		return this.employed;
+	}
+	
 	public float getGenerationPercent() {
-		return (this.generationCooldown-this.tickingTimer)/this.generationCooldown;
+		return 1-this.tickingTimer/this.generationCooldown;
 	}
 	
 	public void employ() {

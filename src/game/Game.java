@@ -80,11 +80,44 @@ public class Game {
 		}
 	}
 	
+	private boolean bought = false;
 	private void drawShopItem(Graphics g, String name, int price, int x, int y) {
 		//also looks for mouse input
-		g.setFont(new Font("Arial",Font.PLAIN,16));
-		g.drawString(name, x, y+18);
-		
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("Arial",Font.PLAIN,12));
+		g.drawString(name, x, y+12);
+		int buttonX = x + 20, buttonY = y+16;
+		int buttonWidth = 30, buttonHeight = 15;
+		g.setColor(Color.BLACK);
+		g.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+		g.setColor(Color.LIGHT_GRAY);
+		int mx = this.getX(), my = this.getY();
+		if (mx > buttonX && mx < buttonX+buttonWidth && my > buttonY && my < buttonY+buttonHeight) {
+			g.setColor(Color.GRAY);
+			if (this.isLeftMouseDown()) {
+				//buy
+				if (!bought && ship.getCurrentScraps() >= price) {
+					bought = true;
+					switch (name) { 
+					case "Potato Farm":
+						ship.addModule(new PotatoFarmModule(ship));
+						break;
+					case "Basic Hydrolysis":
+						ship.addModule(new SimpleHydrolysisModule(ship));
+						break;
+					}
+					ship.useScraps(price);
+				}
+			}
+		}
+		g.fillRect(buttonX+1, buttonY+1, buttonWidth-2, buttonHeight-2);
+		g.setColor(Color.BLACK);
+		g.drawString("BUY", buttonX+buttonWidth/2-g.getFontMetrics().stringWidth("BUY")/2, buttonY + buttonHeight-3);
+		g.setColor(Color.RED);
+		if (ship.getCurrentScraps() >= price) //we can afford
+			g.setColor(Color.GREEN);
+		g.drawString("$"+price, buttonX+buttonWidth+5, buttonY+buttonHeight-3);
+		bought = bought && !this.isLeftMouseDown();
 	}
 	
 	public int tickSpeed() {
