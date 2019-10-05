@@ -184,9 +184,10 @@ public class Game {
 				
 				//draw mods
 				for (ShipModule mod : ship.getModules()) {
-					g.setColor(Color.DARK_GRAY);
-					g.setFont(new Font("Arial",Font.PLAIN,14));
-					g.drawString(mod.getName(), x, y+14);
+					g.setColor(Color.WHITE);
+					g.setFont(new Font("Arial",Font.PLAIN,12));
+					String title = mod.getName() + " • lvl. "+mod.getLevel();
+					g.drawString(title, x, y+12);
 					y+=30;
 				}
 			}
@@ -315,6 +316,9 @@ public class Game {
 						break;
 					case "Park":
 						ship.addModule(new ParkModule(ship));
+						break;
+					case "Scrap Synthesizer":
+						ship.addModule(new ScrapSynthesizerModule(ship));
 						break;
 					}
 					ship.useScraps(price);

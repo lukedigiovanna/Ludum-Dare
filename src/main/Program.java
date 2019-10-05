@@ -7,7 +7,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 public class Program {
-	public static final String GAME_NAME = "Space Jam";
+	public static final String GAME_NAME = "Space Struggle";
 	public static final String CREATORS = "Luke DiGiovanna and Ridha Chowdhury";
 	
 	public static BufferedImage getImage(String filePath) {
