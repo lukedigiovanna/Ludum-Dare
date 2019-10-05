@@ -9,7 +9,7 @@ public class CenterModule extends ShipModule {
 	public CenterModule(Ship inShip) {
 		super(inShip, 0, 0.5f);
 	}
-
+//
 	@Override
 	protected void generateResource() {
 		this.getShip().addPower((float) (3.0f*Math.log(moduleLevel)));
