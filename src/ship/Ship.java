@@ -31,7 +31,7 @@ public class Ship {
 	
 	
 	private PlanetTimer pt = new PlanetTimer(this);
-	
+	//f
 	public Ship() {
 		modules = new ArrayList<ShipModule>();
 		modules.add(new CenterModule(this));
