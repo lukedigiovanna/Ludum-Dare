@@ -24,7 +24,7 @@ public class Ship {
 	
 	private int maxScraps = 100, scraps = 0; //kilograms of food
 	
-	private int secondsPerDay = 10; //2 minutes per day
+	private float secondsPerDay = 0.1f; //2 minutes per day
 	private float day = 0;
 	
 	private List<ShipModule> modules;
@@ -36,6 +36,12 @@ public class Ship {
 		modules = new ArrayList<ShipModule>();
 		modules.add(new CenterModule(this));
 		modules.get(0).employ();
+		modules.add(new CenterModule(this));
+		modules.add(new CenterModule(this));
+		modules.add(new CenterModule(this));
+		modules.add(new CenterModule(this));
+		modules.add(new CenterModule(this));
+		modules.add(new CenterModule(this));
 	}
 	
 	private float messagePersist = 5.0f; //seconds.
@@ -82,8 +88,31 @@ public class Ship {
 	}
 	
 	public void draw(Graphics g, int centerX, int centerY) {
+		int ind = 0;
+		int s = 50;
 		for (ShipModule module : modules) {
-			
+			if (ind == 0) {
+				g.drawImage(module.getImage(),centerX-s/2, centerY-s/2,s,s,null);
+			}
+			else {
+				int nInd = (ind-1)%4;
+				int dist = (ind-1)/4+1;
+				switch (nInd) {
+				case 0: //up
+					g.drawImage(module.getImage(), centerX-s/2, centerY-s/2-dist*s, s, s, null);
+					break;
+				case 1: //right
+					g.drawImage(module.getImage(), centerX-s/2+dist*s, centerY-s/2, s, s, null);
+					break;
+				case 2: //down
+					g.drawImage(module.getImage(), centerX-s/2, centerY-s/2+dist*s, s, s, null);
+					break;
+				case 3: //left
+					g.drawImage(module.getImage(), centerX-s/2-dist*s, centerY-s/2, s, s, null);
+					break;
+				}
+			}
+			ind++;
 		}
 		//draw message if there is one
 		if (messageTimer > 0.0f) {
