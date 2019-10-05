@@ -188,6 +188,30 @@ public class Game {
 					g.setFont(new Font("Arial",Font.PLAIN,12));
 					String title = mod.getName() + " • lvl. "+mod.getLevel();
 					g.drawString(title, x, y+12);
+					int butX = x+15, butY = y+14, butW = 50, butH = 15;
+					int moX = this.getX(), moY = this.getY();
+					g.setColor(Color.BLACK);
+					g.fillRect(butX, butY, butW, butH);
+					g.setColor(Color.LIGHT_GRAY);
+					int price = mod.getUpgradePrice();
+					if (moX > butX && moX < butX+butW && moY > butY && moY < butY+butH) {
+						g.setColor(Color.GRAY);
+						if (this.isLeftMouseDown() && !mouseDown) {
+							mouseDown =true;
+							if (this.ship.getCurrentScraps() > price) {
+								mod.addLevel();
+								this.ship.useScraps(price);
+							}
+						}
+					}
+					g.fillRect(butX+1, butY+1, butW-2, butH-2);
+					g.setColor(Color.BLACK);
+					g.drawString("upgrade", butX+butW/2-g.getFontMetrics().stringWidth("upgrade")/2, butY+butH-3);
+					g.setColor(Color.RED);
+					if (ship.getCurrentScraps() >= price) //we can afford
+						g.setColor(Color.GREEN);
+					g.drawImage(SpriteCodex.SCRAPS_SYMBOL, butX+butW+5, butY+butH-3-12,12, 12, null);
+					g.drawString(""+price, butX+butW+5+12, butY+butH-3);
 					y+=30;
 				}
 			}
