@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 public abstract class ShipModule {
 	private boolean employed = false;
 	//private int price; price set as static variable in the subclasses
-	protected int moduleLevel = 1;
+	private int moduleLevel = 1;
 	private float generationCooldown; //how many days
 	private float tickingTimer;
 	private Ship myShip;
@@ -43,7 +43,9 @@ public abstract class ShipModule {
 	public int getUpgradePrice() {
 		return (this.moduleLevel+1)*getInitialPrice();
 	}
-	
+	public int getModuleLevel()	{
+		return moduleLevel;
+	}
 	public abstract int getInitialPrice();
 	
 	protected abstract void generateResource();

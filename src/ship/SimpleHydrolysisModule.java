@@ -2,6 +2,8 @@ package ship;
 
 import java.awt.image.BufferedImage;
 
+import main.SpriteCodex;
+
 public class SimpleHydrolysisModule extends ShipModule {
 
 	public static int price = 150;
@@ -12,13 +14,14 @@ public class SimpleHydrolysisModule extends ShipModule {
 
 	@Override
 	protected void generateResource() {
-		
+		this.getShip().addWater(3.0f*this.getModuleLevel());
 	}
 
 	@Override
 	public BufferedImage getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		int index = (int)(SpriteCodex.SIMPLE_HYDROLYSIS_MODULE.length*this.getGenerationPercent());
+		index%= SpriteCodex.SIMPLE_HYDROLYSIS_MODULE.length;
+		return SpriteCodex.SIMPLE_HYDROLYSIS_MODULE[index];
 	}
 
 	@Override
