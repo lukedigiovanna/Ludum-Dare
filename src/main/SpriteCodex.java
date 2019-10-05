@@ -17,7 +17,7 @@ public class SpriteCodex {
 		SOLAR_REACTOR = Program.getImage("solar_reactor"),
 		SCRAP_SYNTHESIZER = Program.getImage("scrap_synthesizer"),
 		PARK = Program.getImage("park"),
-		LIVING_QUARTERS = Program.getImage("living_qarters"),
+		LIVING_QUARTERS = Program.getImage("living_quarters"),
 		//symbols
 		POWER_SYMBOL = Program.getImage("power_symbol"),
 		WATER_SYMBOL = Program.getImage("water_symbol"),

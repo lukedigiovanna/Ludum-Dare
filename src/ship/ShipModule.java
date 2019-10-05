@@ -23,7 +23,7 @@ public abstract class ShipModule {
 	}
 	
 	public void update(float deltaTime)	{
-		if(employed)	{
+		if(employed && this.employable)	{
 			tickingTimer -= deltaTime;
 			if(tickingTimer<=0.0f)	{
 				generateResource();

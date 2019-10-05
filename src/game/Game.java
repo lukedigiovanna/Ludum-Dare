@@ -107,7 +107,6 @@ public class Game {
 			
 			g.setColor(Color.WHITE);
 			g.drawString("SHOP",shopLeft+shopWidth/2-g.getFontMetrics().stringWidth("SHOP")/2,shopTop+40);
-<<<<<<< HEAD
 			if (menu.contentEquals("buy")) {
 				int x = shopLeft, y = shopTop+50;
 				g.setFont(new Font("Arial",Font.BOLD,18));
@@ -146,7 +145,7 @@ public class Game {
 				y+=30;
 				drawShopItem(g, "Game Room", GameRoomModule.price, "happiness", x, y);
 				y+=30;
-				drawShopItem(g, "Synthetic Meats", SyntheticMeatsModule.price, "food", x, y);
+				drawShopItem(g, "Food Synthesizer", FoodSynthesizerModule.price, "food", x, y);
 				y+=30;
 				drawShopItem(g, "Super Hydrolysis", SuperHydrolysisModule.price, "water", x, y);
 				y+=30;
@@ -200,29 +199,6 @@ public class Game {
 				g.setFont(new Font("Arial",Font.BOLD,68));
 				g.drawString("PAUSED", DISPLAY_WIDTH/2-g.getFontMetrics().stringWidth("PAUSED")/2,DISPLAY_HEIGHT/3);
 			}
-			
-=======
-			int x = shopLeft, y = shopTop+50;
-			drawShopItem(g, "Potato Farm", PotatoFarmModule.price, "food", x, y);
-			y+=30;
-			drawShopItem(g, "Basic Hydrolysis",SimpleHydrolysisModule.price, "water", x, y);
-			y+=30;
-			drawShopItem(g, "Solar Panels", SolarPanelModule.price, "power", x, y);
-			y+=30;
-			drawShopItem(g, "Scrap Storage", StorageModule.price, "scraps", x, y);
-			y+=30;
-			drawShopItem(g, "Game Room", GameRoomModule.price, "happiness", x, y);
-			y+=30;
-			drawShopItem(g, "Synthetic Meats", FoodSynthesizer.price, "food", x, y);
-			y+=30;
-			drawShopItem(g, "Super Hydrolysis", SuperHydrolysisModule.price, "water", x, y);
-			y+=30;
-			drawShopItem(g, "Solar Reactor",SolarReactorModule.price, "power", x,y);
-			y+=30;
-			drawShopItem(g, "Scrap Synthesizer", 999, "scraps", x, y);
-			y+=30;
-			drawShopItem(g, "Park", 9999, "happiness", x, y);
->>>>>>> refs/remotes/origin/master
 			break;
 		case GAME_OVER:
 			g.setColor(Color.GRAY);
@@ -328,8 +304,8 @@ public class Game {
 					case "Living Quarters":
 						ship.addModule(new LivingQuartersModule(ship));
 						break;
-					case "Synthetic Meats":
-						ship.addModule(new SyntheticMeatsModule(ship));
+					case "Food Synthesizer":
+						ship.addModule(new FoodSynthesizerModule(ship));
 						break;
 					case "Super Hydrolysis":
 						ship.addModule(new SuperHydrolysisModule(ship));

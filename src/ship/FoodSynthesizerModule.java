@@ -4,11 +4,11 @@ import java.awt.image.BufferedImage;
 
 import main.SpriteCodex;
 
-public class SyntheticMeatsModule extends ShipModule {
+public class FoodSynthesizerModule extends ShipModule {
 
 	public static int price = 500;
 	
-	public SyntheticMeatsModule(Ship inShip) {
+	public FoodSynthesizerModule(Ship inShip) {
 		super(inShip, 0.5f, 6.0f);
 		this.getShip().addMaxFood(20.0f);
 	}
