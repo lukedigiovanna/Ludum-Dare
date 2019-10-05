@@ -1,6 +1,8 @@
 package main;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import javax.swing.*;
 import game.*;
 
@@ -15,10 +17,12 @@ public class Panel extends JPanel {
 			public void run() {
 				while (true) {
 					try {
+						System.out.println("what the fuck");
 						Thread.sleep(game.tickSpeed());
 						game.gameLoop();
+						System.out.println("gay");
 					} catch (Exception e) {
-						
+						e.printStackTrace();
 					}
 				}
 			}
@@ -30,7 +34,9 @@ public class Panel extends JPanel {
 					try {
 						Thread.sleep(50);
 						repaint();
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					
 				}
 			}
@@ -38,7 +44,10 @@ public class Panel extends JPanel {
 		frameLoop.start();
 	}
 	
+	private BufferedImage image = new BufferedImage(Game.DISPLAY_WIDTH,Game.DISPLAY_HEIGHT,BufferedImage.TYPE_INT_ARGB);
+	
 	public void paintComponent(Graphics g) {
-		game.draw(g);
+		game.draw(image.getGraphics());
+		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 	}
 }

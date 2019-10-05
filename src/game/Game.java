@@ -2,21 +2,31 @@ package game;
 
 import java.awt.*;
 
+import misc.ElapsedTime;
+import ship.Ship;
+
 public class Game {
 	
 	public static final int DISPLAY_WIDTH = 640, DISPLAY_HEIGHT = 480;
 	
 	private Screen currentScreen = Screen.MAIN;
 	
+	private ElapsedTime timer;
+	
+	private Ship ship;
+	
 	public Game() {
-		
+		timer = new ElapsedTime();
+		ship = new Ship();
 	}
 	
 	/*
 	 * main game logic
 	 */
 	public void gameLoop() {
-		
+		float elapsedTime = timer.mark();
+		ship.update(elapsedTime);
+		System.out.println(ship);
 	}
 	
 	public enum Screen {
