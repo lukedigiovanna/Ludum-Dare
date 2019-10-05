@@ -13,7 +13,7 @@ public class Program {
 	public static BufferedImage getImage(String filePath) {
 		
 		try {
-			File file = new File("images/"+filePath);
+			File file = new File("images/"+filePath+".png");
 		
 			BufferedImage img = ImageIO.read(file);
 		

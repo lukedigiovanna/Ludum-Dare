@@ -26,7 +26,7 @@ public abstract class ShipModule {
 	}
 	
 	public float getGenerationPercent() {
-		return this.tickingTimer/this.generationCooldown;
+		return (this.generationCooldown-this.tickingTimer)/this.generationCooldown;
 	}
 	
 	public void employ() {

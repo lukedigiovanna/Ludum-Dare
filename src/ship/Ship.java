@@ -118,7 +118,7 @@ public class Ship {
 	
 	public void draw(Graphics g, int centerX, int centerY) {
 		int ind = 0;
-		int s = 50;
+		int s = 64;
 		for (ShipModule module : modules) {
 			if (ind == 0) {
 				g.drawImage(module.getImage(),centerX-s/2, centerY-s/2,s,s,null);
