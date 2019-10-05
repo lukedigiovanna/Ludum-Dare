@@ -230,12 +230,17 @@ public class Ship {
 	}
 	
 	private void drawBar(Graphics g, int x, int y, int width, int height, float percent, Color color) {
+		g.setFont(new Font("Arial",Font.BOLD,12));
 		g.setColor(Color.GRAY);
 		g.fillRect(x-2, y-2, width+4, height+4);
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(x, y, width, height);
 		g.setColor(color);
 		g.fillRect(x, y, (int)(width * percent), height);
+		if(game.getX()>x && game.getX()<x+width&&game.getY()>y &&game.getY()<y+height)	{
+			g.setColor(Color.black);
+			g.drawString((int)(percent*100)+"%", x+width/2-5, y+12);
+		}
 	}
 	
 	public List<ShipModule> getModules() {
@@ -250,21 +255,22 @@ public class Ship {
 		int initX = x, initY = y;
 		//energy then water then food then scraps
 		int height = 20;
+		int barLength = 55;
 		g.drawImage(SpriteCodex.POWER_SYMBOL, x, y, height, height, null);
 		x += 25;
-		this.drawBar(g,x,y,55,height,this.getPowerPercent(),Color.YELLOW);
+		this.drawBar(g,x,y,barLength,height,this.getPowerPercent(),Color.YELLOW);
 		x += 60;
 		g.drawImage(SpriteCodex.WATER_SYMBOL, x, y, height, height, null);
 		x += 25;
-		this.drawBar(g,x,y,55,height,this.getWaterPercent(),Color.BLUE);
+		this.drawBar(g,x,y,barLength,height,this.getWaterPercent(),Color.BLUE);
 		x += 60;
 		g.drawImage(SpriteCodex.FOOD_SYMBOL, x, y, height, height, null);
 		x += 25;
-		this.drawBar(g, x, y, 55, height, this.getFoodPercent(), Color.ORANGE);
+		this.drawBar(g, x, y, barLength, height, this.getFoodPercent(), Color.ORANGE);
 		x+= 60;
 		g.drawImage(SpriteCodex.HAPPINESS_SYMBOL, x, y, height, height, null);
 		x+=25;
-		this.drawBar(g, x, y, 55, height, this.happiness, Color.GREEN);
+		this.drawBar(g, x, y, barLength, height, this.happiness, Color.GREEN);
 		x+=60;
 		g.drawImage(SpriteCodex.SCRAPS_SYMBOL, x, y, height, height, null);
 		g.setColor(Color.WHITE);

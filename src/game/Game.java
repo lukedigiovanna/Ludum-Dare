@@ -41,7 +41,7 @@ public class Game {
 		float elapsedTime = timer.mark();
 		ship.update(elapsedTime);
 		handleStars();
-		System.out.println(ship);
+		//System.out.println(ship);
 	}
 	
 	public enum Screen {
@@ -107,6 +107,7 @@ public class Game {
 			
 			g.setColor(Color.WHITE);
 			g.drawString("SHOP",shopLeft+shopWidth/2-g.getFontMetrics().stringWidth("SHOP")/2,shopTop+40);
+<<<<<<< HEAD
 			if (menu.contentEquals("buy")) {
 				int x = shopLeft, y = shopTop+50;
 				g.setFont(new Font("Arial",Font.BOLD,18));
@@ -200,6 +201,28 @@ public class Game {
 				g.drawString("PAUSED", DISPLAY_WIDTH/2-g.getFontMetrics().stringWidth("PAUSED")/2,DISPLAY_HEIGHT/3);
 			}
 			
+=======
+			int x = shopLeft, y = shopTop+50;
+			drawShopItem(g, "Potato Farm", PotatoFarmModule.price, "food", x, y);
+			y+=30;
+			drawShopItem(g, "Basic Hydrolysis",SimpleHydrolysisModule.price, "water", x, y);
+			y+=30;
+			drawShopItem(g, "Solar Panels", SolarPanelModule.price, "power", x, y);
+			y+=30;
+			drawShopItem(g, "Scrap Storage", StorageModule.price, "scraps", x, y);
+			y+=30;
+			drawShopItem(g, "Game Room", GameRoomModule.price, "happiness", x, y);
+			y+=30;
+			drawShopItem(g, "Synthetic Meats", FoodSynthesizer.price, "food", x, y);
+			y+=30;
+			drawShopItem(g, "Super Hydrolysis", SuperHydrolysisModule.price, "water", x, y);
+			y+=30;
+			drawShopItem(g, "Solar Reactor",SolarReactorModule.price, "power", x,y);
+			y+=30;
+			drawShopItem(g, "Scrap Synthesizer", 999, "scraps", x, y);
+			y+=30;
+			drawShopItem(g, "Park", 9999, "happiness", x, y);
+>>>>>>> refs/remotes/origin/master
 			break;
 		case GAME_OVER:
 			g.setColor(Color.GRAY);
@@ -215,7 +238,7 @@ public class Game {
 		}
 	}
 		private int starCount = 50;
-		private int movingVelocity = 5;
+		private int movingVelocity = 20;
 		private Point[] stars = new Point[starCount];
 		public void populateStars()	{
 			//produce stars in random locations
@@ -243,7 +266,7 @@ public class Game {
 		public void renderStars(Graphics g)	{
 			g.setColor(Color.white);
 			for(Point star:stars)
-				g.fillRect(((int)star.getX()), ((int)star.getY()), starSize, starSize);
+				g.fillOval(((int)star.getX()), ((int)star.getY()), starSize, starSize);
 		}
 	
 	private boolean bought = false;
