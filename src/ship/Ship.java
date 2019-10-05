@@ -53,10 +53,11 @@ public class Ship {
 		updateShipModules(elapsedTime);
 
 	}
-		private void updateShipModules(float elapsedTime)	{
-			for(ShipModule module:modules)
-				module.update(elapsedTime);
-		}
+	
+	private void updateShipModules(float elapsedTime)	{
+		for(ShipModule module:modules)
+			module.update(elapsedTime);
+	}
 	
 	public void draw(Graphics g, int centerX, int centerY) {
 		for (ShipModule module : modules) {
@@ -97,7 +98,7 @@ public class Ship {
 		g.setColor(Color.WHITE);
 		x += 25;
 		g.setFont(new Font("Arial",Font.BOLD,height-2));
-		g.drawString(this.scraps+"",x,y);
+		g.drawString(this.scraps+"",x,y+height);
 	}
 	
 	public float getCurrentPower() {

@@ -12,10 +12,8 @@ public class Program {
 	
 	public static BufferedImage getImage(String filePath) {
 		
-		//parse string such 
-		
 		try {
-			File file = new File(filePath);
+			File file = new File("images/"+filePath);
 		
 			BufferedImage img = ImageIO.read(file);
 		
