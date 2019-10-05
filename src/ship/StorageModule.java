@@ -10,11 +10,17 @@ public class StorageModule extends ShipModule {
 	public StorageModule(Ship inShip) {
 		super(inShip, 10000.0f);
 		this.getShip().addScrapsStorage(150);
+		this.setEmployable(false);
 	}
 
 	@Override
 	protected void generateResource() {
 		//generates no resources
+	}
+	
+	public void levelUp() {
+		this.addLevel();
+		this.getShip().addScrapsStorage(100);
 	}
 
 	@Override
@@ -26,5 +32,4 @@ public class StorageModule extends ShipModule {
 	public int getInitialPrice() {
 		return price;
 	}
-
 }

@@ -17,9 +17,15 @@ public class SyntheticMeatsModule extends ShipModule {
 		return price;
 	}
 
+	private float food = 5.0f;
 	@Override
 	protected void generateResource() {
-		this.getShip().addFood(5.0f);
+		this.getShip().addFood(food);
+	}
+	
+	public void levelUp() {
+		this.addLevel();
+		food+=1.5f;
 	}
 
 	@Override

@@ -17,9 +17,15 @@ public class SuperHydrolysisModule extends ShipModule {
 		return price;
 	}
 
+	public void levelUp() {
+		this.addLevel();
+		water+=0.5f;
+	}
+	
+	private float water = 1.5f;
 	@Override
 	protected void generateResource() {
-		this.getShip().addWater(1.5f);
+		this.getShip().addWater(water);
 	}
 
 	@Override

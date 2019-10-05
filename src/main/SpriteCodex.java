@@ -10,13 +10,15 @@ public class SpriteCodex {
 	//initialize the sprites.
 	public static final BufferedImage
 		SHIP_CENTER = Program.getImage("ship_center"),
-		SCRAPS_STORAGE = Program.getImage("scraps_storage"),
+		SCRAPS_STORAGE = Program.getImage("scrap_storage"),
 		GAME_ROOM = Program.getImage("game_room"),
 		SYNTHETIC_MEATS = Program.getImage("synthetic_meats"),
 		SUPER_HYDROLYSIS = Program.getImage("super_hydrolysis"),
 		SOLAR_REACTOR = Program.getImage("solar_reactor"),
 		SCRAP_SYNTHESIZER = Program.getImage("scrap_synthesizer"),
 		PARK = Program.getImage("park"),
+		LIVING_QUARTERS = Program.getImage("living_qarters"),
+		//symbols
 		POWER_SYMBOL = Program.getImage("power_symbol"),
 		WATER_SYMBOL = Program.getImage("water_symbol"),
 		FOOD_SYMBOL = Program.getImage("food_symbol"),
