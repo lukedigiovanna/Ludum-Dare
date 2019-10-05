@@ -17,8 +17,12 @@ public class SolarPanelModule extends ShipModule {
 
 	@Override
 	public BufferedImage getImage() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int getInitialPrice() {
+		return price;
 	}
 
 }

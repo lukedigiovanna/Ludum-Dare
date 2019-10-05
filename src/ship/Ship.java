@@ -13,6 +13,7 @@ import main.SpriteCodex;
 public class Ship {
 	
 	private int population = 2; //start with 2 people
+	private int employedPopulation = 0;
 	
 	private float maxPower = 50.0f, power = 50.0f;
 	private float powerDepletionRate = 10.0f; // per day
@@ -37,18 +38,31 @@ public class Ship {
 	public Ship(Game game) {
 		this.game = game;
 		modules = new ArrayList<ShipModule>();
-		modules.add(new CenterModule(this));
-		modules.get(0).employ();
-		modules.add(new CenterModule(this));
-		modules.add(new CenterModule(this));
-		modules.add(new CenterModule(this));
-		modules.add(new CenterModule(this));
-		modules.add(new CenterModule(this));
-		modules.add(new CenterModule(this));
-		modules.add(new CenterModule(this));
-		modules.add(new CenterModule(this));
-		modules.add(new CenterModule(this));
-		modules.add(new CenterModule(this));
+		addModule(new CenterModule(this));
+		addModule(new PotatoFarmModule(this));
+	}
+	
+	public void addModule(ShipModule mod) {
+		//attempt to employ upon addition
+		mod.employ();
+		modules.add(mod);
+	}
+	
+	public void repopulate() {
+		int prevPop = population;
+		int matingPopulation = (int)(population*MathUtils.randomInRange(0.2, 1.0));
+		if (population >= 2 && population < 4)
+			matingPopulation = 2;
+		for (int i = 0; i < matingPopulation; i+=2) {
+			population++;
+			if (Math.random() < 0.05) //twins
+				population++;
+		}
+		int deltaPop = population-prevPop;
+		popMessage("New people born!","+"+deltaPop+" population");
+		//re try employing
+		for (ShipModule mod : modules)
+			mod.employ();
 	}
 	
 	private float messagePersist = 5.0f; //seconds.
@@ -61,10 +75,18 @@ public class Ship {
 		msgSubtitle = subtitle;
 	}
 	
+	private float repopulationTime = 10.0f;
+	private float repopulationTimer = 0.0f;
 	public void update(float elapsedTime) {
 		float dayPrev = day;
 		day += (elapsedTime/secondsPerDay);
 		float elapsedDay = day-dayPrev;
+		
+		repopulationTimer += elapsedDay;
+		if (repopulationTimer >= repopulationTime) {
+			repopulationTimer = 0.0f;
+			repopulate();
+		}
 		
 		pt.update(elapsedDay);
 		
@@ -177,11 +199,28 @@ public class Ship {
 		
 		//draw day
 		x = initX; y = initY+height+3;
-		if(day%1.0>0.5)
-			timeSuffix = "Pm";
+		int hour = (int)(day%1.0*24);
+		int minute = (int)(day%1.0*24%1.0*60);
+		if(hour >= 12)
+			timeSuffix = " pm";
 		else
-			timeSuffix = "Am";
-		g.drawString("Day: "+ ((int)day) +" Hours: "+ ((int)(day%0.5*24+1)) + ":" +  ((int)((day%1.0*24+1)%1*60)) + timeSuffix ,x, y+height);
+			timeSuffix = " am";
+		if (hour > 12)
+			hour -= 12;
+		if (hour == 0)
+			hour = 12;
+		g.drawString("Day: "+ ((int)day) +" Hour: "+ hour + ":" +  minute + timeSuffix ,x, y+height);
+		
+		//draw the population
+		y += 21;
+		g.drawString("Population: "+this.population, x, y + 18);
+		y += 21;
+		g.setColor(Color.GREEN);
+		String empStr = "Employed: "+this.employedPopulation;
+		g.drawString(empStr, x, y + 18);
+		g.setColor(Color.RED);
+		y += 21;
+		g.drawString("Unemployed: "+(population-this.employedPopulation), x, y+18);
 	}
 	
 	public float getCurrentPower() {
@@ -238,6 +277,15 @@ public class Ship {
 	
 	public void addScrapsStorage(int add) {
 		this.maxScraps+=add;
+	}
+	
+	public boolean employ() {
+		if (this.employedPopulation < this.population) {
+			this.employedPopulation++;
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public String toString() {

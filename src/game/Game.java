@@ -3,9 +3,7 @@ package game;
 import java.awt.*;
 
 import misc.ElapsedTime;
-import ship.Ship;
-import ship.ShipModule;
-import main.Panel;
+import ship.*;
 
 public class Game {
 	
@@ -72,12 +70,21 @@ public class Game {
 			g.setFont(new Font("Arial",Font.BOLD | Font.ITALIC, 24));
 			g.setColor(Color.WHITE);
 			g.drawString("SHOP",shopLeft+shopWidth/2-g.getFontMetrics().stringWidth("SHOP")/2,shopTop+40);
-			Class<?>[] classes = ShipModule.class.getClasses();
-			
+			int x = shopLeft, y = shopTop+40;
+			drawShopItem(g, "Potato Farm", PotatoFarmModule.price, x, y);
+			y+=30;
+			drawShopItem(g, "Basic Hydrolysis",SimpleHydrolysisModule.price, x, y);
 			break;
 		case GAME_OVER:
 			break;
 		}
+	}
+	
+	private void drawShopItem(Graphics g, String name, int price, int x, int y) {
+		//also looks for mouse input
+		g.setFont(new Font("Arial",Font.PLAIN,16));
+		g.drawString(name, x, y+18);
+		
 	}
 	
 	public int tickSpeed() {
