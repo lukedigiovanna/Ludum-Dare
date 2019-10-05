@@ -30,7 +30,7 @@ public class Game {
 		float elapsedTime = timer.mark();
 		ship.update(elapsedTime);
 		handleStars();
-		System.out.println(ship);
+		//System.out.println(ship);
 	}
 	
 	public enum Screen {
@@ -89,7 +89,7 @@ public class Game {
 			y+=30;
 			drawShopItem(g, "Game Room", GameRoomModule.price, "happiness", x, y);
 			y+=30;
-			drawShopItem(g, "Synthetic Meats", SyntheticMeatsModule.price, "food", x, y);
+			drawShopItem(g, "Synthetic Meats", FoodSynthesizer.price, "food", x, y);
 			y+=30;
 			drawShopItem(g, "Super Hydrolysis", SuperHydrolysisModule.price, "water", x, y);
 			y+=30;
@@ -104,7 +104,7 @@ public class Game {
 		}
 	}
 		private int starCount = 50;
-		private int movingVelocity = 5;
+		private int movingVelocity = 20;
 		private Point[] stars = new Point[starCount];
 		public void populateStars()	{
 			//produce stars in random locations
@@ -132,7 +132,7 @@ public class Game {
 		public void renderStars(Graphics g)	{
 			g.setColor(Color.white);
 			for(Point star:stars)
-				g.fillRect(((int)star.getX()), ((int)star.getY()), starSize, starSize);
+				g.fillOval(((int)star.getX()), ((int)star.getY()), starSize, starSize);
 		}
 	
 	private boolean bought = false;
