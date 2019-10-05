@@ -2,6 +2,8 @@ package ship;
 
 import java.awt.image.BufferedImage;
 
+import main.SpriteCodex;
+
 public class PotatoFarmModule extends ShipModule {
 
 	public static int price = 100;
@@ -17,10 +19,12 @@ public class PotatoFarmModule extends ShipModule {
 
 	@Override
 	public BufferedImage getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		int index = (int)(SpriteCodex.POTATO_FARM.length*this.getGenerationPercent());
+		return SpriteCodex.POTATO_FARM[index];
 	}
-	
-	
 
+	@Override
+	public int getInitialPrice() {
+		return price;
+	}
 }

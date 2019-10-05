@@ -21,4 +21,9 @@ public class SimpleHydrolysisModule extends ShipModule {
 		return null;
 	}
 
+	@Override
+	public int getInitialPrice() {
+		return price;
+	}
+
 }

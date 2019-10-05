@@ -25,13 +25,26 @@ public abstract class ShipModule {
 		}
 	}
 	
+	public float getGenerationPercent() {
+		return this.tickingTimer/this.generationCooldown;
+	}
+	
 	public void employ() {
-		employed = true;
+		if (employed) //cant re-employ if someone is already working there
+			return;
+		if (myShip.employ())
+			employed = true;
 	}
 	
 	public Ship getShip() {
 		return this.myShip;
 	}
+	
+	public int getUpgradePrice() {
+		return (this.moduleLevel+1)*getInitialPrice();
+	}
+	
+	public abstract int getInitialPrice();
 	
 	protected abstract void generateResource();
 	public abstract BufferedImage getImage();

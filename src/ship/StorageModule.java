@@ -20,4 +20,9 @@ public class StorageModule extends ShipModule {
 		return null;
 	}
 
+	@Override
+	public int getInitialPrice() {
+		return price;
+	}
+
 }
