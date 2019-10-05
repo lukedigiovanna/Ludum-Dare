@@ -4,6 +4,7 @@ import java.awt.*;
 
 import misc.ElapsedTime;
 import ship.Ship;
+import ship.ShipModule;
 import main.Panel;
 
 public class Game {
@@ -68,6 +69,11 @@ public class Game {
 			int shopWidth = (int)(margin*DISPLAY_WIDTH), shopHeight = DISPLAY_HEIGHT;
 			int shopLeft = DISPLAY_WIDTH-shopWidth, shopTop = 0;
 			g.fillRect(shopLeft,shopTop,shopWidth,shopHeight);
+			g.setFont(new Font("Arial",Font.BOLD | Font.ITALIC, 24));
+			g.setColor(Color.WHITE);
+			g.drawString("SHOP",shopLeft+shopWidth/2-g.getFontMetrics().stringWidth("SHOP")/2,shopTop+40);
+			Class<?>[] classes = ShipModule.class.getClasses();
+			
 			break;
 		case GAME_OVER:
 			break;

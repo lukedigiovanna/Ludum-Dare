@@ -19,6 +19,7 @@ public class PlanetTimer {
 			if (Math.random() <= chance) {
 				encounterPlanet();
 			}
+			cooldown += MathUtils.randomInRange(-0.1, 0.25);
 			cooldownStatus = cooldown;
 		}
 	}
