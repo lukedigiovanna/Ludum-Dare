@@ -1,12 +1,15 @@
 package main;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpriteCodex {
 	//initialize the sprites.
 	public static final BufferedImage
 		SHIP_CENTER = Program.getImage("ship_center"),
-		SOLAR_PANEL = Program.getImage("solar_panel"),
 		SCRAPS_STORAGE = Program.getImage("scraps_storage"),
 		GAME_ROOM = Program.getImage("game_room"),
 		SYNTHETIC_MEATS = Program.getImage("synthetic_meats"),
@@ -21,20 +24,32 @@ public class SpriteCodex {
 		HAPPINESS_SYMBOL = Program.getImage("happiness_symbol"),
 		PERSON = Program.getImage("person");
 	public static final BufferedImage[]
-		POTATO_FARM = {Program.getImage("potato_farm/potato_farm_0"),
-				Program.getImage("potato_farm/potato_farm_1"),
-				Program.getImage("potato_farm/potato_farm_2"),
-				Program.getImage("potato_farm/potato_farm_3"),
-				Program.getImage("potato_farm/potato_farm_4"),
-				Program.getImage("potato_farm/potato_farm_5"),
-				Program.getImage("potato_farm/potato_farm_6"),
-				Program.getImage("potato_farm/potato_farm_7")};
+		POTATO_FARM = getArray("potato_farm");
 	
 	public static final BufferedImage[]
-		SIMPLE_HYDROLYSIS_MODULE = {Program.getImage("simple_hydrolysis_module/simple_hydrolysis_module_0"),
-			Program.getImage("simple_hydrolysis_module/simple_hydrolysis_module_1"),
-			Program.getImage("simple_hydrolysis_module/simple_hydrolysis_module_2"),
-			Program.getImage("simple_hydrolysis_module/simple_hydrolysis_module_3")};
+		SIMPLE_HYDROLYSIS_MODULE = getArray("simple_hydrolysis_module");
+
+	public static final BufferedImage[]
+		SOLAR_PANEL = getArray("solar_panel");
+	
+	private static BufferedImage[] getArray(String folderName) {
+		List<BufferedImage> list = new ArrayList<BufferedImage>();
+		int index = 0;
+		while (true) {
+			BufferedImage img = Program.getImage(folderName+"/"+folderName+"_"+index);
+			try {
+				File file = new File("images/"+folderName+"/"+folderName+"_"+index+".png");
+				if (!file.exists())
+					break;
+			} catch (Exception e) {}
+			list.add(img);
+			index++;
+		}
+		BufferedImage[] arr = new BufferedImage[list.size()];
+		for (int i = 0; i < list.size(); i++) 
+			arr[i] = list.get(i);
+		return arr;
+	}
 	
 	public static BufferedImage get(BufferedImage[] arr, float percent) {
 		return arr[(int)(percent*arr.length)%arr.length];

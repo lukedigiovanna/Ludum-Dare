@@ -64,8 +64,9 @@ public class Game {
 			g.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 			renderStars(g);
 			float margin = 0.23f;
+			ship.drawShip(g, (int)((1.0-margin)*DISPLAY_WIDTH/2), DISPLAY_HEIGHT/2);
 			ship.drawBars(g,10,10);
-			ship.draw(g, (int)((1.0-margin)*DISPLAY_WIDTH/2), DISPLAY_HEIGHT/2);
+			ship.drawMessages(g, (int)((1.0-margin)*DISPLAY_WIDTH/2), DISPLAY_HEIGHT/2);
 			//draw shop menu
 			g.setColor(Color.GRAY);
 			int shopWidth = (int)(margin*DISPLAY_WIDTH), shopHeight = DISPLAY_HEIGHT;
@@ -183,11 +184,16 @@ public class Game {
 					case "Solar Panels":
 						ship.addModule(new SolarPanelModule(ship));
 						break;
+					case "Scrap Storage":
+						ship.addModule(new StorageModule(ship));
+						break;
 					}
 					ship.useScraps(price);
 				}
 			}
 		}
+		if (bought && !this.isLeftMouseDown())
+			bought = false;
 		g.fillRect(buttonX+1, buttonY+1, buttonWidth-2, buttonHeight-2);
 		g.setColor(Color.BLACK);
 		g.drawString("BUY", buttonX+buttonWidth/2-g.getFontMetrics().stringWidth("BUY")/2, buttonY + buttonHeight-3);

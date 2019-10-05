@@ -120,7 +120,27 @@ public class Ship {
 			module.update(elapsedDay);
 	}
 	
-	public void draw(Graphics g, int centerX, int centerY) {
+	public void drawMessages(Graphics g, int centerX, int centerY) {
+		//draw message if there is one
+		if (messageTimer > 0.0f) {
+			float percent = messageTimer-(messagePersist-1.0f);
+			int alpha = 255-(int)(255*percent);
+			if (percent < 0)
+				alpha = 255;
+			g.setFont(new Font("Arial",Font.BOLD | Font.ITALIC, 60));
+			g.setColor(new Color(255,255,255,alpha));
+			g.drawString(msgTitle, centerX-g.getFontMetrics().stringWidth(msgTitle)/2-2, centerY-100-2);
+			g.setColor(new Color(255,0,0,alpha));
+			g.drawString(msgTitle, centerX-g.getFontMetrics().stringWidth(msgTitle)/2, centerY-100);
+			g.setFont(new Font("Arial",Font.PLAIN,48));
+			g.setColor(new Color(255,255,255,alpha));
+			g.drawString(msgSubtitle,centerX-g.getFontMetrics().stringWidth(msgSubtitle)/2-2,centerY-30-2);
+			g.setColor(new Color(125,125,125,alpha));
+			g.drawString(msgSubtitle,centerX-g.getFontMetrics().stringWidth(msgSubtitle)/2,centerY-30);
+		}
+	}
+	
+	public void drawShip(Graphics g, int centerX, int centerY) {
 		int ind = 0;
 		int size = 64;
 		for (ShipModule module : modules) {
@@ -157,23 +177,6 @@ public class Ship {
 			if (module.isEmployed())
 				g.drawImage(person, personX, personY, person.getWidth()*2, person.getHeight()*2, null);
 			ind++;
-		}
-		//draw message if there is one
-		if (messageTimer > 0.0f) {
-			float percent = messageTimer-(messagePersist-1.0f);
-			int alpha = 255-(int)(255*percent);
-			if (percent < 0)
-				alpha = 255;
-			g.setFont(new Font("Arial",Font.BOLD | Font.ITALIC, 60));
-			g.setColor(new Color(255,255,255,alpha));
-			g.drawString(msgTitle, centerX-g.getFontMetrics().stringWidth(msgTitle)/2-2, centerY-100-2);
-			g.setColor(new Color(255,0,0,alpha));
-			g.drawString(msgTitle, centerX-g.getFontMetrics().stringWidth(msgTitle)/2, centerY-100);
-			g.setFont(new Font("Arial",Font.PLAIN,48));
-			g.setColor(new Color(255,255,255,alpha));
-			g.drawString(msgSubtitle,centerX-g.getFontMetrics().stringWidth(msgSubtitle)/2-2,centerY-30-2);
-			g.setColor(new Color(125,125,125,alpha));
-			g.drawString(msgSubtitle,centerX-g.getFontMetrics().stringWidth(msgSubtitle)/2,centerY-30);
 		}
 	}
 	
