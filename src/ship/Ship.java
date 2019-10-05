@@ -147,6 +147,7 @@ public class Ship {
 	/*
 	 * top left x and y
 	 */
+	String timeSuffix = "Am";
 	public void drawBars(Graphics g, int x, int y) {
 		int initX = x, initY = y;
 		//energy then water then food then scraps
@@ -173,7 +174,11 @@ public class Ship {
 		
 		//draw day
 		x = initX; y = initY+height+3;
-		g.drawString("Day: "+MathUtils.round((double)day,0.01),x, y+height);
+		if(day%1.0>0.5)
+			timeSuffix = "Pm";
+		else
+			timeSuffix = "Am";
+		g.drawString("Day: "+ ((int)day) +" Hours: "+ ((int)(day%0.5*24+1)) + ":" +  ((int)((day%1.0*24+1)%1*60)) + timeSuffix ,x, y+height);
 	}
 	
 	public float getCurrentPower() {
