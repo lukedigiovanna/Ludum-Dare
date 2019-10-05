@@ -7,7 +7,7 @@ import main.SpriteCodex;
 public class CenterModule extends ShipModule {
 
 	public CenterModule(Ship inShip) {
-		super(inShip, 0, 1.0f);
+		super(inShip, 0, 0.5f);
 		// TODO Auto-generated constructor stub
 	}
 
