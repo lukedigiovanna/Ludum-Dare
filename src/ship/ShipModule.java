@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 public abstract class ShipModule {
 	private boolean employed = false;
 	private int price;
-	private float generationCooldown;
+	private float generationCooldown; //how many days
 	private float tickingTimer;
 	private Ship myShip;
 	
