@@ -9,10 +9,11 @@ public class SolarPanelModule extends ShipModule {
 	public static int price = 200;
 	
 	public SolarPanelModule(Ship inShip) {
-		super(inShip, 0.1f);
+		super(inShip, 0.1f,0.0f);
+		this.getShip().addMaxPower(10.0f);
 	}
 
-	private float power = 0.5f;
+	private float power = 1.0f;
 	@Override
 	protected void generateResource() {
 		this.getShip().addPower(power);

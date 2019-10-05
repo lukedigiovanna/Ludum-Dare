@@ -9,7 +9,7 @@ public class LivingQuartersModule extends ShipModule {
 	public static int price = 250;
 	
 	public LivingQuartersModule(Ship inShip) {
-		super(inShip, 999999.0f);
+		super(inShip, 999999.0f, 0.5f);
 		setEmployable(false);
 		this.getShip().addMaxPopulation(4);
 	}

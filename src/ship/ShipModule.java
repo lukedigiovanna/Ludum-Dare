@@ -10,10 +10,12 @@ public abstract class ShipModule {
 	private float generationCooldown; //how many days
 	private float tickingTimer;
 	private Ship myShip;
+	private float powerUse;
 	
-	public ShipModule(Ship inShip, float generationCooldown)	{
+	public ShipModule(Ship inShip, float generationCooldown, float powerUse)	{
 		myShip = inShip;
 		this.generationCooldown = generationCooldown;
+		this.powerUse = powerUse;
 	}
 	
 	public void setEmployable(boolean bo) {
@@ -25,6 +27,8 @@ public abstract class ShipModule {
 			tickingTimer -= deltaTime;
 			if(tickingTimer<=0.0f)	{
 				generateResource();
+				//if we generate resource then use power
+				myShip.usePower(powerUse*generationCooldown);
 				tickingTimer = generationCooldown;
 			}
 		}
@@ -73,5 +77,15 @@ public abstract class ShipModule {
 	
 	protected abstract void generateResource();
 	public abstract BufferedImage getImage();
+
+	public String getName() {
+		String s = this.getClass().getName();
+		s = s.substring(5,s.length()-6);
+		//add space between capital letters
+		for (int i = 0 ; i < s.length(); i++) {
+			
+		}
+		return s;
+	}
 
 }

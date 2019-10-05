@@ -8,7 +8,8 @@ public class GameRoomModule extends ShipModule {
 	public static int price = 250;
 	
 	public GameRoomModule(Ship inShip) {
-		super(inShip,1.0f);
+		super(inShip,1.0f,0.5f);
+		this.setEmployable(false);
 	}
 
 	@Override
@@ -16,15 +17,15 @@ public class GameRoomModule extends ShipModule {
 		return price;
 	}
 
-	private float happy = 0.1f;
+	private float happy = 0.05f;
 	@Override
 	protected void generateResource() {
-		this.getShip().addHappiness(0.1f);
+		this.getShip().addLuxuryHappiness(happy);
 	}
 	
 	public void levelUp() {
 		this.addLevel();
-		happy+=0.05f;
+		happy+=0.025f;
 	}
 
 	@Override

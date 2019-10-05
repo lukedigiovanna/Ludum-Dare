@@ -11,6 +11,7 @@ public class Main {
 		frame.setSize(Game.DISPLAY_WIDTH,Game.DISPLAY_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocation(100,100);
+		frame.requestFocus();
 		panel = new Panel();
 		frame.setContentPane(panel);
 		frame.setVisible(true);

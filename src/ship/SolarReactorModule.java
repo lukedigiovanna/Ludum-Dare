@@ -9,7 +9,8 @@ public class SolarReactorModule extends ShipModule {
 	public static int price = 750;
 	
 	public SolarReactorModule(Ship inShip) {
-		super(inShip, 0.1f);
+		super(inShip, 0.1f,0.0f);
+		this.getShip().addMaxPower(25.0f);
 	}
 
 	@Override

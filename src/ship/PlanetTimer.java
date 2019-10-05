@@ -29,16 +29,21 @@ public class PlanetTimer {
 		int planet = (int)(Math.random()*planetTypes);
 		switch (planet) {
 		case 0:
-			myShip.popMessage("Water Planet!","Filled water tanks");
-			myShip.addWater(9999);
+			double water = MathUtils.randomInRange(3, 5.0);
+			water = MathUtils.round(water,0.1);
+			myShip.popMessage("Water Planet!","+"+water+" litres of water");
+			myShip.addWater((float)water);
 			break;
 		case 1:
-			myShip.popMessage("Abandoned Planet!", "+100 scraps");
-			myShip.addScraps(100);
+			int add = MathUtils.randomInRange(80,150);
+			myShip.popMessage("Abandoned Planet!", "+"+add+" scraps");
+			myShip.addScraps(add);
 			break;
 		case 2:
-			myShip.popMessage("Food Planet!", "+4 kg of food!");
-			myShip.addFood(4.0f);
+			double add1 = MathUtils.randomInRange(3.0,7.0);
+			add1 = MathUtils.round(add1, 0.1);
+			myShip.popMessage("Food Planet!", "+"+add1+" kg of food!");
+			myShip.addFood((float)add1);
 			break;
 		}
 	}

@@ -3,6 +3,7 @@ package game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import main.Program;
 import main.SpriteCodex;
 import misc.ElapsedTime;
 import ship.*;
@@ -11,7 +12,11 @@ public class Game {
 	
 	public static final int DISPLAY_WIDTH = 16*50, DISPLAY_HEIGHT = 9*50;
 	
-	private Screen currentScreen = Screen.GAME;
+	private Screen currentScreen = Screen.MAIN;
+	
+	public Screen getScreen() {
+		return currentScreen;
+	}
 	
 	private ElapsedTime timer;
 	
@@ -23,10 +28,16 @@ public class Game {
 		populateStars();
 	}
 	
+	public void init( ) {
+		ship = new Ship(this);
+	}
+	
 	/*
 	 * main game logic
 	 */
 	public void gameLoop() {
+		if (paused || currentScreen != Screen.GAME)
+			return;
 		float elapsedTime = timer.mark();
 		ship.update(elapsedTime);
 		handleStars();
@@ -53,11 +64,29 @@ public class Game {
 		return main.Main.panel.isMouseDown();
 	}
 	
+	private boolean paused = false;
+	
+	public void togglePause() {
+		paused = !paused;
+	}
+	
+	private String menu = "buy"; //"buy" and "upgrade"
+	private boolean mouseDown = false;
 	public void draw(Graphics g) {
 		switch (currentScreen) {
 		case MAIN:
-			g.setColor(Color.BLUE);
+			g.setColor(new Color(0,0,50));
 			g.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+			handleStars();
+			renderStars(g);
+			String s = Program.GAME_NAME;
+			g.setFont(new Font("Arial",Font.BOLD, 68));
+			g.setColor(Color.GRAY);
+			g.drawString(s, DISPLAY_WIDTH/2-g.getFontMetrics().stringWidth(s)/2,DISPLAY_HEIGHT/3);
+			s = "Press 'enter' to play";
+			g.setFont(new Font("Arial",Font.ITALIC,40));
+			g.drawString(s,DISPLAY_WIDTH/2-g.getFontMetrics().stringWidth(s)/2,DISPLAY_HEIGHT/2+DISPLAY_HEIGHT/3);
+			
 			break;
 		case GAME:
 			g.setColor(Color.BLACK);
@@ -78,28 +107,110 @@ public class Game {
 			
 			g.setColor(Color.WHITE);
 			g.drawString("SHOP",shopLeft+shopWidth/2-g.getFontMetrics().stringWidth("SHOP")/2,shopTop+40);
-			int x = shopLeft, y = shopTop+50;
-			drawShopItem(g, "Potato Farm", PotatoFarmModule.price, "food", x, y);
-			y+=30;
-			drawShopItem(g, "Basic Hydrolysis",SimpleHydrolysisModule.price, "water", x, y);
-			y+=30;
-			drawShopItem(g, "Solar Panels", SolarPanelModule.price, "power", x, y);
-			y+=30;
-			drawShopItem(g, "Scrap Storage", StorageModule.price, "scraps", x, y);
-			y+=30;
-			drawShopItem(g, "Game Room", GameRoomModule.price, "happiness", x, y);
-			y+=30;
-			drawShopItem(g, "Synthetic Meats", SyntheticMeatsModule.price, "food", x, y);
-			y+=30;
-			drawShopItem(g, "Super Hydrolysis", SuperHydrolysisModule.price, "water", x, y);
-			y+=30;
-			drawShopItem(g, "Solar Reactor",SolarReactorModule.price, "power", x,y);
-			y+=30;
-			drawShopItem(g, "Scrap Synthesizer", 999, "scraps", x, y);
-			y+=30;
-			drawShopItem(g, "Park", 9999, "happiness", x, y);
+			if (menu.contentEquals("buy")) {
+				int x = shopLeft, y = shopTop+50;
+				g.setFont(new Font("Arial",Font.BOLD,18));
+				g.setColor(Color.LIGHT_GRAY);
+				g.drawString("BUY", x+shopWidth/2-g.getFontMetrics().stringWidth("BUY")/2, y+20);
+				y+=25;
+				//add button to switch to upgrades
+				int bw = 65, bh = 20;
+				int bx = x+shopWidth/2-bw/2, by = y;
+				int mx = this.getX(), my = this.getY();
+				g.setColor(Color.BLACK);
+				g.fillRect(bx, by, bw, bh);
+				g.setColor(Color.LIGHT_GRAY);
+				if (mx > bx && mx < bx+bw && my > by && my < by+bh) {
+					g.setColor(Color.GRAY);
+					if (this.isLeftMouseDown()) {
+						if (!this.mouseDown)
+							this.menu = "upgrades";
+						this.mouseDown = true;
+					}
+				}
+				g.fillRect(bx+1, by+1, bw-2, bh-2);
+				g.setColor(Color.BLACK);
+				g.setFont(new Font("Arial",Font.PLAIN,14));
+				g.drawString("upgrades", bx+bw/2-g.getFontMetrics().stringWidth("upgrades")/2, by+ bh-6);
+				y+=bh+5;
+				drawShopItem(g, "Living Quarters", LivingQuartersModule.price,"", x, y);
+				y+=30;
+				drawShopItem(g, "Potato Farm", PotatoFarmModule.price, "food", x, y);
+				y+=30;
+				drawShopItem(g, "Basic Hydrolysis",SimpleHydrolysisModule.price, "water", x, y);
+				y+=30;
+				drawShopItem(g, "Solar Panels", SolarPanelModule.price, "power", x, y);
+				y+=30;
+				drawShopItem(g, "Scrap Storage", StorageModule.price, "scraps", x, y);
+				y+=30;
+				drawShopItem(g, "Game Room", GameRoomModule.price, "happiness", x, y);
+				y+=30;
+				drawShopItem(g, "Synthetic Meats", SyntheticMeatsModule.price, "food", x, y);
+				y+=30;
+				drawShopItem(g, "Super Hydrolysis", SuperHydrolysisModule.price, "water", x, y);
+				y+=30;
+				drawShopItem(g, "Solar Reactor",SolarReactorModule.price, "power", x,y);
+				y+=30;
+				drawShopItem(g, "Scrap Synthesizer", ScrapSynthesizerModule.price, "scraps", x, y);
+				y+=30;
+				drawShopItem(g, "Park", ParkModule.price, "happiness", x, y);
+			} else {
+				int x = shopLeft, y = shopTop+50;
+				g.setFont(new Font("Arial",Font.BOLD,18));
+				g.setColor(Color.LIGHT_GRAY);
+				g.drawString("UPGRADES", x+shopWidth/2-g.getFontMetrics().stringWidth("UPGRADES")/2, y+20);
+				y+=25;
+				//add button to switch to upgrades
+				int bw = 45, bh = 20;
+				int bx = x+shopWidth/2-bw/2, by = y;
+				int mx = this.getX(), my = this.getY();
+				g.setColor(Color.BLACK);
+				g.fillRect(bx, by, bw, bh);
+				g.setColor(Color.LIGHT_GRAY);
+				if (mx > bx && mx < bx+bw && my > by && my < by+bh) {
+					g.setColor(Color.GRAY);
+					if (this.isLeftMouseDown()) {
+						if (!this.mouseDown)
+							this.menu = "buy";
+						this.mouseDown = true;
+					}
+				}
+				g.fillRect(bx+1, by+1, bw-2, bh-2);
+				g.setColor(Color.BLACK);
+				g.setFont(new Font("Arial",Font.PLAIN,14));
+				g.drawString("buys", bx+bw/2-g.getFontMetrics().stringWidth("buys")/2, by+ bh-6);
+			
+				y += bh + 5;
+				
+				//draw mods
+				for (ShipModule mod : ship.getModules()) {
+					g.setColor(Color.DARK_GRAY);
+					g.setFont(new Font("Arial",Font.PLAIN,14));
+					g.drawString(mod.getName(), x, y+14);
+					y+=30;
+				}
+			}
+			if (this.mouseDown && !this.isLeftMouseDown()) {
+				this.mouseDown = false;
+			}
+			
+			if (paused) {
+				g.setColor(Color.RED);
+				g.setFont(new Font("Arial",Font.BOLD,68));
+				g.drawString("PAUSED", DISPLAY_WIDTH/2-g.getFontMetrics().stringWidth("PAUSED")/2,DISPLAY_HEIGHT/3);
+			}
+			
 			break;
 		case GAME_OVER:
+			g.setColor(Color.GRAY);
+			g.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+			g.setFont(new Font("Arial",Font.BOLD,68));
+			g.setColor(Color.WHITE);
+			g.drawString("GAME OVER!", DISPLAY_WIDTH/2-g.getFontMetrics().stringWidth("GAME OVER!")/2, DISPLAY_HEIGHT/3);
+			g.setColor(Color.LIGHT_GRAY);
+			String s1 = "Press 'enter' to return to main screen";
+			g.setFont(new Font("Arial",Font.ITALIC,40));
+			g.drawString(s1, DISPLAY_WIDTH/2-g.getFontMetrics().stringWidth(s1)/2, DISPLAY_HEIGHT/2+DISPLAY_HEIGHT/3);
 			break;
 		}
 	}
@@ -191,6 +302,21 @@ public class Game {
 					case "Game Room":
 						ship.addModule(new GameRoomModule(ship));
 						break;
+					case "Living Quarters":
+						ship.addModule(new LivingQuartersModule(ship));
+						break;
+					case "Synthetic Meats":
+						ship.addModule(new SyntheticMeatsModule(ship));
+						break;
+					case "Super Hydrolysis":
+						ship.addModule(new SuperHydrolysisModule(ship));
+						break;
+					case "Solar Reactor":
+						ship.addModule(new SolarReactorModule(ship));
+						break;
+					case "Park":
+						ship.addModule(new ParkModule(ship));
+						break;
 					}
 					ship.useScraps(price);
 				}
@@ -206,6 +332,10 @@ public class Game {
 			g.setColor(Color.GREEN);
 		g.drawImage(SpriteCodex.SCRAPS_SYMBOL, buttonX+buttonWidth+5, buttonY+buttonHeight-3-12,12, 12, null);
 		g.drawString(""+price, buttonX+buttonWidth+5+12, buttonY+buttonHeight-3);
+	}
+	
+	public void setScreen(Screen screen) {
+		this.currentScreen = screen;
 	}
 	
 	public int tickSpeed() {

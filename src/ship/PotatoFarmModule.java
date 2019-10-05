@@ -9,13 +9,14 @@ public class PotatoFarmModule extends ShipModule {
 	public static int price = 100;
 	
 	public PotatoFarmModule(Ship inShip) {
-		super(inShip, 2.0f);
+		super(inShip, 1.0f, 3.0f);
 	}
 
 	private float food = 2.0f;
 	@Override
 	protected void generateResource() {
 		this.getShip().addFood(food);
+		this.getShip().addMaxFood(5.0f);
 	}
 
 	@Override

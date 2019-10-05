@@ -8,12 +8,12 @@ public class CenterModule extends ShipModule {
 	public static int price = 0;
 
 	public CenterModule(Ship inShip) {
-		super(inShip, 0.5f);
+		super(inShip, 0.5f, 0.0f);
 	}
 
 	@Override
 	protected void generateResource() {
-		this.getShip().addPower((float) (3.0f*this.getLevel()));
+		this.getShip().addPower((float) (0.75f*this.getLevel()));
 		this.getShip().addFood((float) (1.0f*this.getLevel()));
 	}
 

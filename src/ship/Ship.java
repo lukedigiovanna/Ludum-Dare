@@ -13,22 +13,25 @@ import main.SpriteCodex;
 
 public class Ship {
 	
-	private int population = 4; //start with 2 people
+	private int population = 2; //start with 2 people
 	private int employedPopulation = 0;
 	private int maxPopulation = 4;
 	
 	private float maxPower = 50.0f, power = 50.0f;
-	private float powerDepletionRate = 10.0f; // per day
+	private float powerDepletionRate = 1.0f; // per day from normal ship functioning
+											//any added is from modules
 	
 	private float maxWater = 10.0f, water = 10.0f; //available water in litres
-	private final float waterConsumedPerPerson = 1.5f; //per day
+	private final float waterConsumedPerPerson = 1.0f; //per day
 	
 	private float maxFood = 10.0f, food = 10.0f; //kilograms of food
-	private final float foodConsumedPerPerson = 1.0f; //per day
+	private final float foodConsumedPerPerson = 1.00f; //per day
 	
 	private int maxScraps = 250, scraps = 250; //kilograms of food
 	
 	private float happiness = 1.0f; // 0.0 - 1.0 scale
+	private float necessityHappiness = 0.75f;
+	private float luxuryHappiness = 0.0f;
 	
 	private float secondsPerDay = 10.0f; //2 minutes per day
 	private float day = 0;
@@ -43,14 +46,25 @@ public class Ship {
 		this.game = game;
 		modules = new ArrayList<ShipModule>();
 		addModule(new CenterModule(this));
-		addModule(new PotatoFarmModule(this));
-		addModule(new SimpleHydrolysisModule(this));
 	}
 	
 	public void addModule(ShipModule mod) {
 		//attempt to employ upon addition
 		mod.employ();
 		modules.add(mod);
+	}
+	
+	public void updateHappiness(float dt) {
+		float water = this.getWaterPercent();
+		float food = this.getFoodPercent();
+		float employed = this.employedPopulation/this.population;
+		float avg = (water+food+employed)/3.0f*necessityHappiness;
+		this.luxuryHappiness-=0.001f*dt;
+		if (this.luxuryHappiness < 0)
+			this.luxuryHappiness = 0;
+		this.happiness = this.luxuryHappiness + avg;
+		if (this.happiness < 0) this.happiness = 0.0f;
+		if (this.happiness > 1) this.happiness = 1.0f;
 	}
 	
 	public void repopulate() {
@@ -91,6 +105,9 @@ public class Ship {
 	private float repopulationTime = 10.0f;
 	private float repopulationTimer = 0.0f;
 	public void update(float elapsedTime) {
+		if (population <= 0)
+			gameOver();
+		
 		float dayPrev = day;
 		day += (elapsedTime/secondsPerDay);
 		float elapsedDay = day-dayPrev;
@@ -111,17 +128,40 @@ public class Ship {
 		//power consumed by the ship for movement
 		float powerUsed = elapsedDay * powerDepletionRate;
 		power -= powerUsed;
+		if (power < 0) power = 0;
 		
 		//each person consumes 1.5 litres of water a day
 		float waterUsed = population * (elapsedDay * waterConsumedPerPerson);
 		water -= waterUsed;
+		if (water < 0) water = 0;
 		
 		//each person consumes 1 kg of food a day
 		float foodUsed = population * (elapsedDay * this.foodConsumedPerPerson);
 		food -= foodUsed;
+		if (food < 0) food = 0;
 		
 		updateShipModules(elapsedDay);
-
+		
+		updateHappiness(elapsedDay);
+		water = 0;
+		//update population based on food and water
+		if (this.getWaterPercent() < 0.05) {
+			if (Math.random() < 0.333333*elapsedDay) {
+				population--;
+				popMessage("DEATH!","Someone died of thirst");
+			}
+		}
+		
+		if (this.getFoodPercent() < 0.05) {
+			if (Math.random() < 0.1*elapsedDay) {
+				population--;
+				popMessage("DEATH!","Someone died of hunger");
+			}
+		}
+	}
+	
+	public void gameOver() {
+		game.setScreen(Game.Screen.GAME_OVER);
 	}
 	
 	private void updateShipModules(float elapsedDay)	{
@@ -198,6 +238,10 @@ public class Ship {
 		g.fillRect(x, y, (int)(width * percent), height);
 	}
 	
+	public List<ShipModule> getModules() {
+		return this.modules;
+	}
+	
 	/*
 	 * top left x and y
 	 */
@@ -244,7 +288,7 @@ public class Ship {
 		
 		//draw the population
 		y += 21;
-		g.drawString("Population: "+this.population, x, y + 18);
+		g.drawString("Population: "+this.population+"/"+this.maxPopulation, x, y + 18);
 		y += 21;
 		g.setColor(Color.GREEN);
 		String empStr = "Employed: "+this.employedPopulation;
@@ -252,6 +296,31 @@ public class Ship {
 		g.setColor(Color.RED);
 		y += 21;
 		g.drawString("Unemployed: "+(population-this.employedPopulation), x, y+18);
+	}
+	
+	public boolean hasPower() {
+		return power > 0;
+	}
+	
+	public void usePower(float use) {
+		this.power-=use;
+		if (this.power < 0) this.power = 0;
+	}
+	
+	public void increasePowerDepletion(float add) {
+		this.powerDepletionRate += add;
+	}
+	
+	public void addMaxWater(float water) {
+		this.maxWater+=water;
+	}
+	
+	public void addMaxPower(float power) {
+		this.maxPower+=power;
+	}
+	
+	public void addMaxFood(float food) {
+		this.maxFood+=food;
 	}
 	
 	public void addHappiness(float val) {
@@ -320,6 +389,14 @@ public class Ship {
 	
 	public int getCurrentScraps() {
 		return this.scraps;
+	}
+	
+	public float getHappiness() {
+		return this.happiness;
+	}
+	
+	public void addLuxuryHappiness(float val) {
+		this.luxuryHappiness = MathUtils.max(this.luxuryHappiness+val, 0.25f);
 	}
 	
 	public void addMaxPopulation(int inc) {

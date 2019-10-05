@@ -1,6 +1,8 @@
 package main;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -8,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 import game.*;
+import game.Game.Screen;
 
 public class Panel extends JPanel {
 	
@@ -67,6 +70,30 @@ public class Panel extends JPanel {
 			}
 			
 		});
+		
+		this.setFocusable(true);
+		
+		this.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				switch (game.getScreen()) {
+				case MAIN:
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+						game.init();
+						game.setScreen(Screen.GAME);
+					}
+					break;
+				case GAME:
+					if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+						game.togglePause();
+					break;
+				case GAME_OVER:
+					if (e.getKeyCode() == KeyEvent.VK_ENTER)
+						game.setScreen(Screen.MAIN);
+					break;
+				}
+			}
+		});
+		
 	}
 	
 	private MouseEvent lastMouse = null;
