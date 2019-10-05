@@ -143,19 +143,30 @@ public class Ship {
 		updateShipModules(elapsedDay);
 		
 		updateHappiness(elapsedDay);
-		water = 0;
+		
 		//update population based on food and water
 		if (this.getWaterPercent() < 0.05) {
 			if (Math.random() < 0.333333*elapsedDay) {
-				population--;
+				killSomeone();
 				popMessage("DEATH!","Someone died of thirst");
 			}
 		}
 		
 		if (this.getFoodPercent() < 0.05) {
 			if (Math.random() < 0.1*elapsedDay) {
-				population--;
+				killSomeone();
 				popMessage("DEATH!","Someone died of hunger");
+			}
+		}
+	}
+	
+	public void killSomeone() {
+		population--;
+		for (int i = modules.size()-1; i >= 0; i--) {
+			if (modules.get(i).isEmployed() && modules.get(i).isEmployable()) {
+				modules.get(i).unemploy();
+				this.employedPopulation--;
+				break;
 			}
 		}
 	}

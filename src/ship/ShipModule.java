@@ -15,7 +15,12 @@ public abstract class ShipModule {
 	public ShipModule(Ship inShip, float generationCooldown, float powerUse)	{
 		myShip = inShip;
 		this.generationCooldown = generationCooldown;
+		this.tickingTimer = generationCooldown;
 		this.powerUse = powerUse;
+	}
+	
+	public void unemploy() {
+		employed = false;
 	}
 	
 	public void setEmployable(boolean bo) {
