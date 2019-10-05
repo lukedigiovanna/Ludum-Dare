@@ -194,16 +194,8 @@ public class Game {
 		g.setColor(Color.RED);
 		if (ship.getCurrentScraps() >= price) //we can afford
 			g.setColor(Color.GREEN);
-<<<<<<< HEAD
-		g.drawString("$"+price, buttonX+buttonWidth+5, buttonY+buttonHeight-3);
-		if (bought && !this.isLeftMouseDown()) {
-			bought = false;
-		}
-=======
 		g.drawImage(SpriteCodex.SCRAPS_SYMBOL, buttonX+buttonWidth+5, buttonY+buttonHeight-3-12,12, 12, null);
 		g.drawString(""+price, buttonX+buttonWidth+5+12, buttonY+buttonHeight-3);
-		bought = bought && !this.isLeftMouseDown();
->>>>>>> branch 'master' of https://github.com/lukedigiovanna/Ludum-Dare.git
 	}
 	
 	public int tickSpeed() {
