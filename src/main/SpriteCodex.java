@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SpriteCodex {
-	//initialize the sprites.
+	//initialize the sprites
 	public static final BufferedImage
 		SHIP_CENTER = Program.getImage("ship_center"),
 		SCRAPS_STORAGE = Program.getImage("scrap_storage"),
