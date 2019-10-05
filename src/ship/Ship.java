@@ -13,8 +13,9 @@ import main.SpriteCodex;
 
 public class Ship {
 	
-	private int population = 5; //start with 2 people
+	private int population = 4; //start with 2 people
 	private int employedPopulation = 0;
+	private int maxPopulation = 4;
 	
 	private float maxPower = 50.0f, power = 50.0f;
 	private float powerDepletionRate = 10.0f; // per day
@@ -58,15 +59,23 @@ public class Ship {
 		if (population >= 2 && population < 4)
 			matingPopulation = 2;
 		for (int i = 0; i < matingPopulation; i+=2) {
-			population++;
+			populationIncrement();
 			if (Math.random() < 0.05) //twins
-				population++;
+				populationIncrement();
 		}
 		int deltaPop = population-prevPop;
+		
+		if (deltaPop == 0)
+			return;
+		
 		popMessage("New people born!","+"+deltaPop+" population");
 		//re try employing
 		for (ShipModule mod : modules)
 			mod.employ();
+	}
+	
+	private void populationIncrement() {
+		this.population = MathUtils.max(this.population+1, this.maxPopulation);
 	}
 	
 	private float messagePersist = 5.0f; //seconds.
@@ -174,7 +183,7 @@ public class Ship {
 			g.drawImage(module.getImage(), x, y, size, size, null);
 			BufferedImage person = SpriteCodex.PERSON;
 			int personX = x+size/2-(person.getWidth()), personY = y+size/2-person.getHeight();
-			if (module.isEmployed())
+			if (module.isEmployed() && module.isEmployable())
 				g.drawImage(person, personX, personY, person.getWidth()*2, person.getHeight()*2, null);
 			ind++;
 		}
@@ -311,6 +320,10 @@ public class Ship {
 	
 	public int getCurrentScraps() {
 		return this.scraps;
+	}
+	
+	public void addMaxPopulation(int inc) {
+		this.maxPopulation+=inc;
 	}
 	
 	public boolean employ() {

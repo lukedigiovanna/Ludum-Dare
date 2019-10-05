@@ -4,11 +4,14 @@ import java.awt.image.BufferedImage;
 
 import main.SpriteCodex;
 
-public class GameRoomModule extends ShipModule {
+public class LivingQuartersModule extends ShipModule {
+
 	public static int price = 250;
 	
-	public GameRoomModule(Ship inShip) {
-		super(inShip,1.0f);
+	public LivingQuartersModule(Ship inShip) {
+		super(inShip, 999999.0f);
+		setEmployable(false);
+		this.getShip().addMaxPopulation(4);
 	}
 
 	@Override
@@ -16,19 +19,18 @@ public class GameRoomModule extends ShipModule {
 		return price;
 	}
 
-	private float happy = 0.1f;
 	@Override
 	protected void generateResource() {
-		this.getShip().addHappiness(0.1f);
-	}
-	
-	public void levelUp() {
-		this.addLevel();
-		happy+=0.05f;
+		//generates nothing
 	}
 
+	public void levelUp() {
+		this.addLevel();
+		this.getShip().addMaxPopulation((int)(this.getLevel()*Math.pow(this.getLevel(),2)));
+	}
+	
 	@Override
 	public BufferedImage getImage() {
-		return SpriteCodex.GAME_ROOM;
+		return SpriteCodex.LIVING_QUARTERS;
 	}
 }

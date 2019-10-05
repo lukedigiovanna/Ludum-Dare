@@ -12,11 +12,17 @@ public class SolarPanelModule extends ShipModule {
 		super(inShip, 0.1f);
 	}
 
+	private float power = 0.5f;
 	@Override
 	protected void generateResource() {
-		this.getShip().addPower(0.5f);
+		this.getShip().addPower(power);
 	}
 
+	public void levelUp() {
+		this.addLevel();
+		power+=0.1f;
+	}
+	
 	@Override
 	public BufferedImage getImage() {
 		return SpriteCodex.get(SpriteCodex.SOLAR_PANEL, this.getGenerationPercent());

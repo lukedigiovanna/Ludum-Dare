@@ -12,9 +12,15 @@ public class SimpleHydrolysisModule extends ShipModule {
 		super(inShip, 1.5f);
 	}
 
+	private float water = 3.0f;
 	@Override
 	protected void generateResource() {
-		this.getShip().addWater(3.0f*this.getModuleLevel());
+		this.getShip().addWater(3.0f);
+	}
+	
+	public void levelUp() {
+		this.addLevel();
+		water+=1.0f;
 	}
 
 	@Override

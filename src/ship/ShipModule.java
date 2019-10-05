@@ -3,9 +3,10 @@ package ship;
 import java.awt.image.BufferedImage;
 
 public abstract class ShipModule {
+	private boolean employable = true;
 	private boolean employed = false;
 	//private int price; price set as static variable in the subclasses
-	private int moduleLevel = 1;
+	private int level = 1;
 	private float generationCooldown; //how many days
 	private float tickingTimer;
 	private Ship myShip;
@@ -13,6 +14,10 @@ public abstract class ShipModule {
 	public ShipModule(Ship inShip, float generationCooldown)	{
 		myShip = inShip;
 		this.generationCooldown = generationCooldown;
+	}
+	
+	public void setEmployable(boolean bo) {
+		this.employable = bo;
 	}
 	
 	public void update(float deltaTime)	{
@@ -33,7 +38,15 @@ public abstract class ShipModule {
 		return 1-this.tickingTimer/this.generationCooldown;
 	}
 	
+	public boolean isEmployable() {
+		return this.employable;
+	}
+	
 	public void employ() {
+		if (!employable) {
+			employed = true;
+			return;
+		}
 		if (employed) //cant re-employ if someone is already working there
 			return;
 		if (myShip.employ())
@@ -45,11 +58,17 @@ public abstract class ShipModule {
 	}
 	
 	public int getUpgradePrice() {
-		return (this.moduleLevel+1)*getInitialPrice();
+		return (this.level+1)*getInitialPrice();
 	}
-	public int getModuleLevel()	{
-		return moduleLevel;
+	public int getLevel()	{
+		return level;
 	}
+	
+	public void addLevel() {
+		this.level++;
+	}
+	
+	public abstract void levelUp();
 	public abstract int getInitialPrice();
 	
 	protected abstract void generateResource();

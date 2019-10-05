@@ -75,6 +75,7 @@ public class Game {
 			g.setColor(Color.DARK_GRAY);
 			g.fillRect(shopLeft-10, 0, 10, DISPLAY_HEIGHT);
 			g.setFont(new Font("Arial",Font.BOLD | Font.ITALIC, 24));
+			
 			g.setColor(Color.WHITE);
 			g.drawString("SHOP",shopLeft+shopWidth/2-g.getFontMetrics().stringWidth("SHOP")/2,shopTop+40);
 			int x = shopLeft, y = shopTop+50;
@@ -86,15 +87,15 @@ public class Game {
 			y+=30;
 			drawShopItem(g, "Scrap Storage", StorageModule.price, "scraps", x, y);
 			y+=30;
-			drawShopItem(g, "Game Room", 9999, "happiness", x, y);
+			drawShopItem(g, "Game Room", GameRoomModule.price, "happiness", x, y);
 			y+=30;
-			drawShopItem(g, "Synthetic Meats", 9999, "food", x, y);
+			drawShopItem(g, "Synthetic Meats", SyntheticMeatsModule.price, "food", x, y);
 			y+=30;
-			drawShopItem(g, "Super Hydrolysis", 9999, "water", x, y);
+			drawShopItem(g, "Super Hydrolysis", SuperHydrolysisModule.price, "water", x, y);
 			y+=30;
-			drawShopItem(g, "Solar Reactor",9999, "power", x,y);
+			drawShopItem(g, "Solar Reactor",SolarReactorModule.price, "power", x,y);
 			y+=30;
-			drawShopItem(g, "Scrap Synthesizer", 9999, "scraps", x, y);
+			drawShopItem(g, "Scrap Synthesizer", 999, "scraps", x, y);
 			y+=30;
 			drawShopItem(g, "Park", 9999, "happiness", x, y);
 			break;
@@ -186,6 +187,9 @@ public class Game {
 						break;
 					case "Scrap Storage":
 						ship.addModule(new StorageModule(ship));
+						break;
+					case "Game Room":
+						ship.addModule(new GameRoomModule(ship));
 						break;
 					}
 					ship.useScraps(price);
