@@ -63,13 +63,9 @@ public class Game {
 		case GAME:
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-<<<<<<< HEAD
 			renderStars(g);
-			float margin = 0.20f;
-			ship.draw(g, (int)((1.0-margin)*DISPLAY_WIDTH/2), DISPLAY_HEIGHT/2);
-=======
 			float margin = 0.23f;
->>>>>>> branch 'master' of https://github.com/lukedigiovanna/Ludum-Dare.git
+			ship.draw(g, (int)((1.0-margin)*DISPLAY_WIDTH/2), DISPLAY_HEIGHT/2);
 			ship.drawBars(g,10,10);
 			ship.draw(g, (int)((1.0-margin)*DISPLAY_WIDTH/2), DISPLAY_HEIGHT/2);
 			//draw shop menu
@@ -192,7 +188,8 @@ public class Game {
 		g.setColor(Color.RED);
 		if (ship.getCurrentScraps() >= price) //we can afford
 			g.setColor(Color.GREEN);
-		g.drawString("$"+price, buttonX+buttonWidth+5, buttonY+buttonHeight-3);
+		g.drawImage(SpriteCodex.SCRAPS_SYMBOL, buttonX+buttonWidth+5, buttonY+buttonHeight-3-12,12, 12, null);
+		g.drawString(""+price, buttonX+buttonWidth+5+12, buttonY+buttonHeight-3);
 		bought = bought && !this.isLeftMouseDown();
 	}
 	
