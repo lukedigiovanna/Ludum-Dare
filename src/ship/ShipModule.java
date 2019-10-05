@@ -3,20 +3,23 @@ package ship;
 import java.awt.image.BufferedImage;
 
 public abstract class ShipModule {
-	boolean employed;
+	boolean employed = false;
+	public static int price;
 	float generationCooldown;
 	float tickingTimer;
 	private Ship myShip;
 	
-	public ShipModule(Ship inShip)	{
+	public ShipModule(Ship inShip, int price, float generationCooldown)	{
 		myShip = inShip;
 	}
 	
 	public void update(float deltaTime)	{
-		tickingTimer -= deltaTime;
-		if(tickingTimer<=0.0f)	{
-			generateResource();
-			tickingTimer = generationCooldown;
+		if(employed)	{
+			tickingTimer -= deltaTime;
+			if(tickingTimer<=0.0f)	{
+				generateResource();
+				tickingTimer = generationCooldown;
+			}
 		}
 	}
 	

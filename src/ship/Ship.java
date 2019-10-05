@@ -17,6 +17,8 @@ public class Ship {
 	private float maxFood = 10.0f, food = 10.0f; //kilograms of food
 	private final float foodConsumedPerPerson = 1.0f;
 	
+	private float maxScraps = 10.0f, scraps = 10.0f; //kilograms of food
+	
 	private int secondsPerDay = 180; //3 minutes per day
 	
 	
@@ -39,8 +41,14 @@ public class Ship {
 		//each person consumes 1 kg of food a day
 		float foodUsed = population * (elapsedTime/secondsPerDay * this.foodConsumedPerPerson);
 		food -= foodUsed;
+		
+		updateShipModules(elapsedTime);
 
 	}
+		private void updateShipModules(float elapsedTime)	{
+			for(ShipModule module:modules)
+				module.update(elapsedTime);
+		}
 	
 	public void draw(Graphics g, int centerX, int centerY) {
 		for (ShipModule module : modules) {
