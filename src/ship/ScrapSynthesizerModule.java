@@ -15,7 +15,7 @@ public class ScrapSynthesizerModule extends ShipModule {
 	@Override
 	public void levelUp() {
 		this.addLevel();
-		scraps+=40;
+		scraps+=20;
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class ScrapSynthesizerModule extends ShipModule {
 		return price;
 	}
 
-	private int scraps;
+	private int scraps = 20;
 	@Override
 	protected void generateResource() {
 		this.getShip().addScraps(scraps);
