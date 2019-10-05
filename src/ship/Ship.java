@@ -13,7 +13,7 @@ import main.SpriteCodex;
 
 public class Ship {
 	
-	private int population = 2; //start with 2 people
+	private int population = 5; //start with 2 people
 	private int employedPopulation = 0;
 	
 	private float maxPower = 50.0f, power = 50.0f;
@@ -25,7 +25,9 @@ public class Ship {
 	private float maxFood = 10.0f, food = 10.0f; //kilograms of food
 	private final float foodConsumedPerPerson = 1.0f; //per day
 	
-	private int maxScraps = 100, scraps = 100; //kilograms of food
+	private int maxScraps = 250, scraps = 250; //kilograms of food
+	
+	private float happiness = 1.0f; // 0.0 - 1.0 scale
 	
 	private float secondsPerDay = 10.0f; //2 minutes per day
 	private float day = 0;
@@ -72,7 +74,7 @@ public class Ship {
 	private String msgTitle = "", msgSubtitle = "";
 	
 	public void popMessage(String title, String subtitle) {
-		messageTimer+=0.01f;
+		messageTimer = 0.01f;
 		msgTitle = title;
 		msgSubtitle = subtitle;
 	}
@@ -162,13 +164,15 @@ public class Ship {
 			int alpha = 255-(int)(255*percent);
 			if (percent < 0)
 				alpha = 255;
-			Color c1 = new Color(255,0,0,alpha);
-			g.setColor(c1);
 			g.setFont(new Font("Arial",Font.BOLD | Font.ITALIC, 60));
+			g.setColor(new Color(255,255,255,alpha));
+			g.drawString(msgTitle, centerX-g.getFontMetrics().stringWidth(msgTitle)/2-2, centerY-100-2);
+			g.setColor(new Color(255,0,0,alpha));
 			g.drawString(msgTitle, centerX-g.getFontMetrics().stringWidth(msgTitle)/2, centerY-100);
-			Color c2 = new Color(125,125,125,alpha);
-			g.setColor(c2);
 			g.setFont(new Font("Arial",Font.PLAIN,48));
+			g.setColor(new Color(255,255,255,alpha));
+			g.drawString(msgSubtitle,centerX-g.getFontMetrics().stringWidth(msgSubtitle)/2-2,centerY-30-2);
+			g.setColor(new Color(125,125,125,alpha));
 			g.drawString(msgSubtitle,centerX-g.getFontMetrics().stringWidth(msgSubtitle)/2,centerY-30);
 		}
 	}

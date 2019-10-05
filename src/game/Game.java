@@ -1,7 +1,9 @@
 package game;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
+import main.SpriteCodex;
 import misc.ElapsedTime;
 import ship.*;
 
@@ -59,21 +61,35 @@ public class Game {
 		case GAME:
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-			float margin = 0.20f;
-			ship.draw(g, (int)((1.0-margin)*DISPLAY_WIDTH/2), DISPLAY_HEIGHT/2);
+			float margin = 0.23f;
 			ship.drawBars(g,10,10);
+			ship.draw(g, (int)((1.0-margin)*DISPLAY_WIDTH/2), DISPLAY_HEIGHT/2);
 			//draw shop menu
 			g.setColor(Color.GRAY);
 			int shopWidth = (int)(margin*DISPLAY_WIDTH), shopHeight = DISPLAY_HEIGHT;
 			int shopLeft = DISPLAY_WIDTH-shopWidth, shopTop = 0;
 			g.fillRect(shopLeft,shopTop,shopWidth,shopHeight);
+			g.setColor(Color.DARK_GRAY);
+			g.fillRect(shopLeft-10, 0, 10, DISPLAY_HEIGHT);
 			g.setFont(new Font("Arial",Font.BOLD | Font.ITALIC, 24));
 			g.setColor(Color.WHITE);
 			g.drawString("SHOP",shopLeft+shopWidth/2-g.getFontMetrics().stringWidth("SHOP")/2,shopTop+40);
 			int x = shopLeft, y = shopTop+40;
-			drawShopItem(g, "Potato Farm", PotatoFarmModule.price, x, y);
+			drawShopItem(g, "Potato Farm", PotatoFarmModule.price, "food", x, y);
 			y+=30;
-			drawShopItem(g, "Basic Hydrolysis",SimpleHydrolysisModule.price, x, y);
+			drawShopItem(g, "Basic Hydrolysis",SimpleHydrolysisModule.price, "water", x, y);
+			y+=30;
+			drawShopItem(g, "Solar Panels", SolarPanelModule.price, "power", x, y);
+			y+=30;
+			drawShopItem(g, "Scrap Storage", StorageModule.price, "scraps", x, y);
+			y+=30;
+			drawShopItem(g, "Synthetic Meats", 9999, "food", x, y);
+			y+=30;
+			drawShopItem(g, "Super Hydrolysis", 9999, "water", x, y);
+			y+=30;
+			drawShopItem(g, "Star Sucker",9999, "power", x,y);
+			y+=30;
+			drawShopItem(g, "Scrap Synthesizer", 9999, "scraps", x, y);
 			break;
 		case GAME_OVER:
 			break;
@@ -81,11 +97,32 @@ public class Game {
 	}
 	
 	private boolean bought = false;
-	private void drawShopItem(Graphics g, String name, int price, int x, int y) {
+	private void drawShopItem(Graphics g, String name, int price, String resource, int x, int y) {
 		//also looks for mouse input
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Arial",Font.PLAIN,12));
 		g.drawString(name, x, y+12);
+		BufferedImage resourceImage = null;
+		switch (resource) {
+		case "food":
+			resourceImage = SpriteCodex.FOOD_SYMBOL;
+			break;
+		case "water":
+			resourceImage = SpriteCodex.WATER_SYMBOL;
+			break;
+		case "power":
+			resourceImage = SpriteCodex.POWER_SYMBOL;
+			break;
+		case "scraps":
+			resourceImage = SpriteCodex.SCRAPS_SYMBOL;
+			break;
+		case "happiness":
+			break;
+		}
+		if (resourceImage != null) {
+			//draw next to the name string
+			g.drawImage(resourceImage, x + g.getFontMetrics().stringWidth(name)+5, y, 12, 12, null);
+		}
 		int buttonX = x + 20, buttonY = y+16;
 		int buttonWidth = 30, buttonHeight = 15;
 		g.setColor(Color.BLACK);

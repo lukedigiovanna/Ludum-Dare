@@ -9,13 +9,8 @@ public class CenterModule extends ShipModule {
 
 	public CenterModule(Ship inShip) {
 		super(inShip, 0.5f);
-<<<<<<< HEAD
 	}
-=======
-	}
-
 	
->>>>>>> branch 'master' of https://github.com/lukedigiovanna/Ludum-Dare.git
 	@Override
 	protected void generateResource() {
 		this.getShip().addPower((float) (3.0f*this.getModuleLevel()));
