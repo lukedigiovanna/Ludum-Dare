@@ -10,7 +10,7 @@ public class SpriteCodex {
 	//initialize the sprites.
 	public static final BufferedImage
 		SHIP_CENTER = Program.getImage("ship_center"),
-		SCRAPS_STORAGE = Program.getImage("scraps_storage"),
+		SCRAPS_STORAGE = Program.getImage("scrap_storage"),
 		GAME_ROOM = Program.getImage("game_room"),
 		SYNTHETIC_MEATS = Program.getImage("synthetic_meats"),
 		SUPER_HYDROLYSIS = Program.getImage("super_hydrolysis"),
