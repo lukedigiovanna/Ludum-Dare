@@ -24,7 +24,7 @@ public class Ship {
 	
 	private int maxScraps = 100, scraps = 0; //kilograms of food
 	
-	private float secondsPerDay = 0.1f; //2 minutes per day
+	private float secondsPerDay = 10.0f; //2 minutes per day
 	private float day = 0;
 	
 	private List<ShipModule> modules;
@@ -36,6 +36,10 @@ public class Ship {
 		modules = new ArrayList<ShipModule>();
 		modules.add(new CenterModule(this));
 		modules.get(0).employ();
+		modules.add(new CenterModule(this));
+		modules.add(new CenterModule(this));
+		modules.add(new CenterModule(this));
+		modules.add(new CenterModule(this));
 		modules.add(new CenterModule(this));
 		modules.add(new CenterModule(this));
 		modules.add(new CenterModule(this));

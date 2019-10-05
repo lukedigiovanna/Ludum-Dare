@@ -6,11 +6,7 @@ import main.SpriteCodex;
 
 public class CenterModule extends ShipModule {
 
-<<<<<<< HEAD
 	public CenterModule(Ship inShip) {
-=======
-	public CenterModule(Ship inShip) {
->>>>>>> refs/remotes/origin/master
 		super(inShip, 0, 0.5f);
 	}
 

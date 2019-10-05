@@ -3,9 +3,9 @@ package ship;
 import misc.MathUtils;
 
 public class PlanetTimer {
-	private float cooldown = 1.0f; //days
+	private float cooldown = 0.5f; //days
 	private float cooldownStatus = cooldown;
-	private float chance = 0.01f;
+	private float chance = 0.5f;
 	private Ship myShip;
 	
 	public PlanetTimer(Ship ship) {
@@ -18,8 +18,8 @@ public class PlanetTimer {
 		if (cooldownStatus == 0.0f) {
 			if (Math.random() <= chance) {
 				encounterPlanet();
-				cooldownStatus = cooldown;
 			}
+			cooldownStatus = cooldown;
 		}
 	}
 	
