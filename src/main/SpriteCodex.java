@@ -12,7 +12,6 @@ public class SpriteCodex {
 		SHIP_CENTER = Program.getImage("ship_center"),
 		SCRAPS_STORAGE = Program.getImage("scrap_storage"),
 		GAME_ROOM = Program.getImage("game_room"),
-		SYNTHETIC_MEATS = Program.getImage("synthetic_meats"),
 		SUPER_HYDROLYSIS = Program.getImage("super_hydrolysis"),
 		SOLAR_REACTOR = Program.getImage("solar_reactor"),
 		SCRAP_SYNTHESIZER = Program.getImage("scrap_synthesizer"),
@@ -33,6 +32,9 @@ public class SpriteCodex {
 
 	public static final BufferedImage[]
 		SOLAR_PANEL = getArray("solar_panel");
+	
+	public static final BufferedImage[]
+		FOOD_SYNTHESIZER = getArray("food_synthesizer");
 	
 	private static BufferedImage[] getArray(String folderName) {
 		List<BufferedImage> list = new ArrayList<BufferedImage>();

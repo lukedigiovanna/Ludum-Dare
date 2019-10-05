@@ -222,7 +222,6 @@ public class Game {
 			for(int i = 0; i<stars.length; i++)	{
 				generateStar(i, false);
 			}
-			System.out.print(stars[0].getX() + " " + stars[0].getY());
 		}
 			private void generateStar(int index, boolean isRight)	{
 				Point newStar;

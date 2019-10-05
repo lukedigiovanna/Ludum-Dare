@@ -9,7 +9,7 @@ public class FoodSynthesizerModule extends ShipModule {
 	public static int price = 500;
 	
 	public FoodSynthesizerModule(Ship inShip) {
-		super(inShip, 0.5f, 6.0f);
+		super(inShip, 0.25f, 6.0f);
 		this.getShip().addMaxFood(20.0f);
 	}
 
@@ -18,7 +18,7 @@ public class FoodSynthesizerModule extends ShipModule {
 		return price;
 	}
 
-	private float food = 5.0f;
+	private float food = 2.5f;
 	@Override
 	protected void generateResource() {
 		this.getShip().addFood(food);
@@ -31,7 +31,7 @@ public class FoodSynthesizerModule extends ShipModule {
 
 	@Override
 	public BufferedImage getImage() {
-		return SpriteCodex.SYNTHETIC_MEATS;
+		return SpriteCodex.get(SpriteCodex.FOOD_SYNTHESIZER, this.getGenerationPercent());
 	}
 
 }
