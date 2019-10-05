@@ -18,6 +18,7 @@ public class Game {
 	public Game() {
 		timer = new ElapsedTime();
 		ship = new Ship(this);
+		populateStars();
 	}
 	
 	/*
@@ -26,6 +27,7 @@ public class Game {
 	public void gameLoop() {
 		float elapsedTime = timer.mark();
 		ship.update(elapsedTime);
+		handleStars();
 		System.out.println(ship);
 		System.out.println(getX()+", "+getY());
 	}
@@ -59,6 +61,7 @@ public class Game {
 		case GAME:
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+			renderStars(g);
 			float margin = 0.20f;
 			ship.draw(g, (int)((1.0-margin)*DISPLAY_WIDTH/2), DISPLAY_HEIGHT/2);
 			ship.drawBars(g,10,10);
@@ -79,6 +82,37 @@ public class Game {
 			break;
 		}
 	}
+		int starCount = 50;
+		int movingVelocity = 5;
+		Point[] stars = new Point[starCount];
+		public void populateStars()	{
+			//produce stars in random locations
+			for(int i = 0; i<stars.length; i++)	{
+				generateStar(i, false);
+			}
+			System.out.print(stars[0].getX() + " " + stars[0].getY());
+		}
+			private void generateStar(int index, boolean isRight)	{
+				Point newStar;
+				if(isRight)
+					newStar = new Point((int)(DISPLAY_WIDTH), (int)(Math.random()*DISPLAY_HEIGHT));
+				else
+					newStar = new Point((int)(Math.random()*DISPLAY_WIDTH), (int)(Math.random()*DISPLAY_HEIGHT));
+				stars[index] = newStar;
+			}
+		public void handleStars()	{
+			for(int i = 0; i<stars.length; i++)	{
+				stars[i].x-=movingVelocity;
+			if(stars[i].x<0)
+				generateStar(i, true);
+			}
+		}
+		int starSize = 5;
+		public void renderStars(Graphics g)	{
+			g.setColor(Color.white);
+			for(Point star:stars)
+				g.fillRect(((int)star.getX()), ((int)star.getY()), starSize, starSize);
+		}
 	
 	private boolean bought = false;
 	private void drawShopItem(Graphics g, String name, int price, int x, int y) {

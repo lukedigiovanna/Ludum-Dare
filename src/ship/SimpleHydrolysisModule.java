@@ -10,7 +10,7 @@ public class SimpleHydrolysisModule extends ShipModule {
 	
 	public SimpleHydrolysisModule(Ship inShip) {
 		super(inShip, 1.5f);
-		}
+	}
 
 	@Override
 	protected void generateResource() {
