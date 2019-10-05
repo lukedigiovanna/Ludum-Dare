@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import misc.MathUtils;
 import main.SpriteCodex;
 
 public class Ship {
@@ -31,6 +32,8 @@ public class Ship {
 	
 	public Ship() {
 		modules = new ArrayList<ShipModule>();
+		modules.add(new CenterModule(this));
+		modules.get(0).employ();
 	}
 	
 	public void update(float elapsedTime) {
@@ -113,6 +116,10 @@ public class Ship {
 		return this.power/this.maxPower;
 	}
 	
+	public void addPower(float add) {
+		this.power = MathUtils.max(this.power+add,this.maxPower);
+	}
+	
 	public float getCurrentWater() {
 		return water;
 	}
@@ -125,6 +132,10 @@ public class Ship {
 		return this.water/this.maxWater;
 	}
 	
+	public void addWater(float add) {
+		this.water = MathUtils.max(this.water+add, this.maxWater);
+	}
+	
 	public float getCurrentFood() {
 		return food;
 	}
@@ -135,6 +146,10 @@ public class Ship {
 	
 	public float getFoodPercent() {
 		return this.food/this.maxFood;
+	}
+	
+	public void addFood(float add) {
+		this.food = MathUtils.max(this.food+add, this.maxFood);
 	}
 	
 	public String toString() {
