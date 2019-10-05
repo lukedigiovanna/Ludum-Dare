@@ -11,6 +11,7 @@ public class SpriteCodex {
 		WATER_SYMBOL = Program.getImage("water_symbol"),
 		FOOD_SYMBOL = Program.getImage("food_symbol"),
 		SCRAPS_SYMBOL = Program.getImage("scraps_symbol"),
+		HAPPINESS_SYMBOL = Program.getImage("happiness_symbol"),
 		PERSON = Program.getImage("person");
 	public static final BufferedImage[]
 		POTATO_FARM = {Program.getImage("potato_farm/potato_farm_0"),
