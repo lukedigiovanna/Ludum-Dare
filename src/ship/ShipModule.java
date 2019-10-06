@@ -19,6 +19,10 @@ public abstract class ShipModule {
 		this.powerUse = powerUse;
 	}
 	
+	public float getGenerationCooldown() {
+		return this.generationCooldown;
+	}
+	
 	public void unemploy() {
 		employed = false;
 	}
@@ -85,6 +89,26 @@ public abstract class ShipModule {
 	
 	protected abstract void generateResource();
 	public abstract BufferedImage getImage();
+	
+	public float powerProduction() {
+		return 0;
+	}
+	
+	public float foodProduction() {
+		return 0;
+	}
+	
+	public float waterProduction() {
+		return 0;
+	}
+	
+	public float powerUse() {
+		return 0;
+	}
+	
+	public float scrapsProduction() {
+		return 0;
+	}
 
 	public String getName() {
 		String s = this.getClass().getName();

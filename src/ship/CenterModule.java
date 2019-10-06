@@ -15,8 +15,21 @@ public class CenterModule extends ShipModule {
 	protected void generateResource() {
 		this.getShip().addPower((float) (0.75f*this.getLevel()));
 		this.getShip().addFood((float) (1.0f*this.getLevel()));
+		this.getShip().addScraps(5*this.getLevel());
 	}
 
+	public float powerProduction() {
+		return 0.75f*getLevel()*this.getGenerationCooldown();
+	}
+	
+	public float foodProduction() {
+		return 1.0f*getLevel()*this.getGenerationCooldown();
+	}
+	
+	public float scrapsProduction() {
+		return 5.0f*this.getLevel()*this.getGenerationCooldown();
+	}
+	
 	@Override
 	public BufferedImage getImage() {
 		return SpriteCodex.SHIP_CENTER;

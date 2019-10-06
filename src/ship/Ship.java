@@ -27,7 +27,7 @@ public class Ship {
 	private float maxFood = 10.0f, food = 10.0f; //kilograms of food
 	private final float foodConsumedPerPerson = 1.00f; //per day
 	
-	private int maxScraps = 250, scraps = 2500; //kilograms of scraps
+	private int maxScraps = 250, scraps = 150; //kilograms of scraps
 	
 	private float happiness = 1.0f; // 0.0 - 1.0 scale
 	private float necessityHappiness = 0.75f;
@@ -200,6 +200,7 @@ public class Ship {
 		}
 	}
 	
+	private boolean mouseDown = false;
 	public void drawShip(Graphics g, int centerX, int centerY) {
 		int ind = 0;
 		int size = 64;
@@ -232,11 +233,26 @@ public class Ship {
 				}
 			}
 			g.drawImage(module.getImage(), x, y, size, size, null);
+			
+			int mx = game.getX(), my = game.getY();
+			if (mx > x && mx < x+size && my > y && my < y+size) {
+				g.setColor(Color.WHITE);
+				g.drawRect(x, y, size, size);
+				if (game.isLeftMouseDown() && !mouseDown) {
+					mouseDown = true;
+					game.setSelectedModule(module);
+					game.setMenu("module");
+				}
+			}
+			
 			BufferedImage person = SpriteCodex.PERSON;
 			int personX = x+size/2-(person.getWidth()), personY = y+size/2-person.getHeight();
 			if (module.isEmployed() && module.isEmployable())
 				g.drawImage(person, personX, personY, person.getWidth()*2, person.getHeight()*2, null);
 			ind++;
+		}
+		if (mouseDown && !game.isLeftMouseDown()) {
+			mouseDown = false;
 		}
 	}
 	
