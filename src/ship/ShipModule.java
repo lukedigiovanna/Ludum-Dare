@@ -31,9 +31,12 @@ public abstract class ShipModule {
 		if(employed && this.employable)	{
 			tickingTimer -= deltaTime;
 			if(tickingTimer<=0.0f)	{
-				generateResource();
+				
 				//if we generate resource then use power
-				myShip.usePower(powerUse*generationCooldown);
+				if (myShip.hasPower(powerUse*generationCooldown)) {
+					myShip.usePower(powerUse*generationCooldown);
+					generateResource();
+				}
 				tickingTimer = generationCooldown;
 			}
 		}

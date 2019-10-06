@@ -315,8 +315,8 @@ public class Ship {
 		g.drawString("Unemployed: "+(population-this.employedPopulation), x, y+18);
 	}
 	
-	public boolean hasPower() {
-		return power > 0;
+	public boolean hasPower(float amt) {
+		return power >= amt;
 	}
 	
 	public void usePower(float use) {
