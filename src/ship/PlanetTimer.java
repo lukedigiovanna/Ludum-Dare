@@ -1,5 +1,6 @@
 package ship;
 
+import game.Game;
 import misc.MathUtils;
 
 public class PlanetTimer {
@@ -32,17 +33,20 @@ public class PlanetTimer {
 			double water = MathUtils.randomInRange(3, 5.0);
 			water = MathUtils.round(water,0.1);
 			myShip.popMessage("Water Planet!","+"+water+" litres of water");
+			Game.startPlanet(Game.WATER);
 			myShip.addWater((float)water);
 			break;
 		case 1:
 			int add = MathUtils.randomInRange(80,150);
 			myShip.popMessage("Abandoned Planet!", "+"+add+" scraps");
+			Game.startPlanet(Game.SCRAP);
 			myShip.addScraps(add);
 			break;
 		case 2:
 			double add1 = MathUtils.randomInRange(3.0,7.0);
 			add1 = MathUtils.round(add1, 0.1);
 			myShip.popMessage("Food Planet!", "+"+add1+" kg of food!");
+			Game.startPlanet(Game.FOOD);
 			myShip.addFood((float)add1);
 			break;
 		}
