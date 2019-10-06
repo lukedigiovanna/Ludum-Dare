@@ -277,7 +277,7 @@ public class Game {
 	}
 	
 	private ShipModule selectedModule = null;
-	
+	//
 	public void setSelectedModule(ShipModule sel) {
 		this.selectedModule = sel;
 	}
