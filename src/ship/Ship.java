@@ -319,6 +319,10 @@ public class Ship {
 		return power >= amt;
 	}
 	
+	public boolean hasPowerPercent(float perc) {
+		return this.getPowerPercent() > perc;
+	}
+	
 	public void usePower(float use) {
 		this.power-=use;
 		if (this.power < 0) this.power = 0;

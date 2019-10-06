@@ -256,6 +256,10 @@ public class Game {
 				stars[index] = newStar;
 			}
 		public void handleStars()	{
+			if(!ship.hasPowerPercent(0.03f))
+				movingVelocity = 1;
+			else
+				movingVelocity = 3;
 			for(int i = 0; i<stars.length; i++)	{
 				stars[i].x-=movingVelocity;
 			if(stars[i].x<0)
