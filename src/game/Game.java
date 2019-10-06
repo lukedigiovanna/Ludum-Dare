@@ -41,7 +41,6 @@ public class Game {
 		float elapsedTime = timer.mark();
 		ship.update(elapsedTime);
 		handleStars();
-		handlePlanet();
 		//System.out.println(ship);
 	}
 	
@@ -94,7 +93,6 @@ public class Game {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 			renderStars(g);
-			renderPlanet(g);
 			float margin = 0.23f;
 			ship.drawShip(g, (int)((1.0-margin)*DISPLAY_WIDTH/2), DISPLAY_HEIGHT/2);
 			ship.drawBars(g,10,10);
@@ -277,7 +275,7 @@ public class Game {
 	}
 	
 	private ShipModule selectedModule = null;
-	//
+	
 	public void setSelectedModule(ShipModule sel) {
 		this.selectedModule = sel;
 	}
@@ -320,35 +318,7 @@ public class Game {
 			for(Point star:stars)
 				g.fillOval(((int)star.getX()), ((int)star.getY()), starSize, starSize);
 		}
-		
-		static int planetPosition = 0;
-		int planetSpeed = 10;
-		int planetSize = 100;
-		static Color planetColor;
-		static boolean planetAnimating = false;
-		public final static int POWER = 0, WATER = 1, FOOD = 2, HAPPIENESS = 3, SCRAP = 4;
-		public static void startPlanet(int resource)	{
-			if(resource == FOOD)
-				planetColor = Color.orange;
-			if(resource == WATER)
-				planetColor = Color.blue;
-			if(resource == SCRAP)
-				planetColor = Color.gray;
-			planetPosition = DISPLAY_WIDTH;
-			planetAnimating = true;
-		}
-		public void handlePlanet()	{
-			if(planetAnimating)
-				planetPosition-=planetSpeed;
-			if(planetPosition<0-planetSize)
-				planetAnimating = false;
-		}
-		public void renderPlanet(Graphics g)	{
-			if(planetAnimating)	{
-				g.setColor(planetColor);
-				g.fillOval(planetPosition, DISPLAY_HEIGHT-planetSize-80, planetSize , planetSize);
-			}
-		}
+	
 	private boolean bought = false;
 	private void drawShopItem(Graphics g, String name, int price, String resource, int x, int y) {
 		//also looks for mouse input

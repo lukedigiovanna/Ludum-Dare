@@ -26,6 +26,7 @@ public class LivingQuartersModule extends ShipModule {
 
 	public void levelUp() {
 		this.addLevel();
+		System.out.println("upgraded living quarters");
 		this.getShip().addMaxPopulation((int)(this.getLevel()*Math.pow(this.getLevel(),2)));
 	}
 	

@@ -27,7 +27,7 @@ public class Ship {
 	private float maxFood = 10.0f, food = 10.0f; //kilograms of food
 	private final float foodConsumedPerPerson = 1.00f; //per day
 	
-	private int maxScraps = 250, scraps = 150; //kilograms of scraps
+	private int maxScraps = 2500, scraps = 2500; //kilograms of scraps
 	
 	private float happiness = 1.0f; // 0.0 - 1.0 scale
 	private float necessityHappiness = 0.75f;
@@ -35,6 +35,7 @@ public class Ship {
 	
 	private float secondsPerDay = 10.0f; //2 minutes per day
 	private float day = 0;
+	
 	
 	private List<ShipModule> modules;
 	
