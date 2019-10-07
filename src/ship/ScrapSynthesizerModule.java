@@ -22,6 +22,10 @@ public class ScrapSynthesizerModule extends ShipModule {
 	public int getInitialPrice() {
 		return price;
 	}
+	
+	public float scrapsProduction() {
+		return scraps * 1/getGenerationCooldown();
+	}
 
 	private int scraps = 20;
 	@Override

@@ -19,15 +19,15 @@ public class CenterModule extends ShipModule {
 	}
 
 	public float powerProduction() {
-		return 0.75f*getLevel()*this.getGenerationCooldown();
+		return 0.75f*getLevel()*1/this.getGenerationCooldown();
 	}
 	
 	public float foodProduction() {
-		return 1.0f*getLevel()*this.getGenerationCooldown();
+		return 1.0f*getLevel()*1/this.getGenerationCooldown();
 	}
 	
 	public float scrapsProduction() {
-		return 5.0f*this.getLevel()*this.getGenerationCooldown();
+		return 5.0f*this.getLevel()*1/this.getGenerationCooldown();
 	}
 	
 	@Override

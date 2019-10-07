@@ -18,10 +18,14 @@ public class SolarPanelModule extends ShipModule {
 	protected void generateResource() {
 		this.getShip().addPower(power);
 	}
+	
+	public float powerProduction() {
+		return power * 1/this.getGenerationCooldown();
+	}
 
 	public void levelUp() {
 		this.addLevel();
-		power+=0.1f;
+		power *= 1.6f;
 	}
 	
 	@Override

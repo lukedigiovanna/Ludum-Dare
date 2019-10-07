@@ -3,6 +3,7 @@ package ship;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class Ship {
 	private float maxFood = 10.0f, food = 10.0f; //kilograms of food
 	private final float foodConsumedPerPerson = 1.00f; //per day
 	
-	private int maxScraps = 2500, scraps = 2500; //kilograms of scraps
+	private int maxScraps = 250, scraps = 250; //kilograms of scraps
 	
 	private float happiness = 1.0f; // 0.0 - 1.0 scale
 	private float necessityHappiness = 0.75f;
@@ -35,7 +36,6 @@ public class Ship {
 	
 	private float secondsPerDay = 10.0f; //2 minutes per day
 	private float day = 0;
-	
 	
 	private List<ShipModule> modules;
 	
@@ -46,13 +46,25 @@ public class Ship {
 	public Ship(Game game) {
 		this.game = game;
 		modules = new ArrayList<ShipModule>();
-		addModule(new CenterModule(this));
+		this.modules.add(new CenterModule(this));
+		this.modules.get(0).employ();
+	}
+	
+	public void removeModule(ShipModule mod) {
+		mod.unemploy();
+		modules.remove(mod);
 	}
 	
 	public void addModule(ShipModule mod) {
-		//attempt to employ upon addition
-		mod.employ();
-		modules.add(mod);
+		//wait for mouse input
+		queueModule(mod);
+	}
+	
+	private boolean requestingLocation = false;
+	private ShipModule queued = null;
+	private void queueModule(ShipModule mod) {
+		requestingLocation = true;
+		queued = mod;
 	}
 	
 	public void updateHappiness(float dt) {
@@ -103,9 +115,33 @@ public class Ship {
 		msgSubtitle = subtitle;
 	}
 	
+	private List<Point> getOpenPoints() {
+		List<Point> open = new ArrayList<Point>();
+		for (ShipModule mod : modules) {
+			Point modP = mod.getRelativePosition();
+			Point[] possibles =  {new Point(modP.x-1,modP.y),
+				  new Point(modP.x+1,modP.y),
+				  new Point(modP.x,modP.y-1),
+				  new Point(modP.x,modP.y+1)
+				  };
+			for (ShipModule mod2 : modules) {
+				for (int i = 0; i < possibles.length; i++) {
+					if (possibles[i] != null && possibles[i].equals(mod2.getRelativePosition()))
+						possibles[i] = null;
+				}
+			}
+			for (Point p : possibles) 
+				if (p != null)
+					open.add(p);
+		}
+		return open;
+	}
+	
+	private float totalElapsedTime = 0.0f;
 	private float repopulationTime = 10.0f;
 	private float repopulationTimer = 0.0f;
 	public void update(float elapsedTime) {
+		totalElapsedTime += elapsedTime;
 		if (population <= 0)
 			gameOver();
 		
@@ -147,16 +183,24 @@ public class Ship {
 		
 		//update population based on food and water
 		if (this.getWaterPercent() < 0.05) {
-			if (Math.random() < 0.333333*elapsedDay) {
-				killSomeone();
-				popMessage("DEATH!","Someone died of thirst");
+			if (Math.random() < 0.4*elapsedDay) {
+				//kill 20 - 40% of the population
+				double killPercent = MathUtils.randomInRange(0.2,0.4);
+				int kills = (int)Math.ceil(killPercent*population);
+				for (int i = 0; i < kills; i++)
+					killSomeone();
+				popMessage("DEATH!", kills+" died of thirst");
 			}
 		}
 		
 		if (this.getFoodPercent() < 0.05) {
-			if (Math.random() < 0.1*elapsedDay) {
-				killSomeone();
-				popMessage("DEATH!","Someone died of hunger");
+			if (Math.random() < 0.2*elapsedDay) {
+				//kill 10-30%
+				double killPercent = MathUtils.randomInRange(0.1,0.3);
+				int kills = (int)Math.ceil(killPercent*population);
+				for (int i = 0; i < kills; i++)
+					killSomeone();
+				popMessage("DEATH!", kills+" starved to death");
 			}
 		}
 	}
@@ -166,9 +210,8 @@ public class Ship {
 		for (int i = modules.size()-1; i >= 0; i--) {
 			if (modules.get(i).isEmployed() && modules.get(i).isEmployable()) {
 				modules.get(i).unemploy();
-				this.employedPopulation--;
 				break;
-			}
+			} 
 		}
 	}
 	
@@ -201,41 +244,41 @@ public class Ship {
 		}
 	}
 	
+	private int size = 64;
 	private boolean mouseDown = false;
 	public void drawShip(Graphics g, int centerX, int centerY) {
-		int ind = 0;
-		int size = 64;
+		int mx = game.getX(), my = game.getY();
+		
+		if (this.requestingLocation) {
+			for (Point p : this.getOpenPoints()) {
+				int x = centerX-size/2+p.x*size, y = centerY-size/2+p.y*size;
+				if (mx > x && mx < x + size && my > y && my < y + size) {
+					if (game.isLeftMouseDown() && !mouseDown) {
+						mouseDown = true;
+						this.queued.setRelativePosition(p.x, p.y);
+						this.modules.add(queued);
+						this.queued = null;
+						this.requestingLocation = false;
+					}
+				}
+				g.setColor(Color.WHITE);
+				if (this.totalElapsedTime % 0.8 > 0.4f)
+					g.drawRect(centerX-size/2+p.x*size, centerY-size/2+p.y*size, size, size);
+			}
+		}
+		
+		
 		for (ShipModule module : modules) {
 			int x = 0, y = 0;
-			if (ind == 0) {
-				x = centerX-size/2;
-				y = centerY-size/2;
-			}
-			else {
-				int nInd = (ind-1)%4;
-				int dist = (ind-1)/4+1;
-				switch (nInd) {
-				case 0: //up
-					x = centerX-size/2;
-					y = centerY-size/2-dist*size;
-					break;
-				case 1: //right
-					x = centerX-size/2+dist*size;
-					y = centerY-size/2;
-					break;
-				case 2: //down
-					x = centerX-size/2;
-					y = centerY-size/2+dist*size;
-					break;
-				case 3: //left
-					x = centerX-size/2-dist*size;
-					y = centerY-size/2;
-					break;
-				}
-			}
+			
+			x = centerX-size/2; y = centerY-size/2;
+			x += module.getRelativePosition().x*size;
+			y += module.getRelativePosition().y*size;
+			
 			g.drawImage(module.getImage(), x, y, size, size, null);
 			
-			int mx = game.getX(), my = game.getY();
+			
+			
 			if (mx > x && mx < x+size && my > y && my < y+size) {
 				g.setColor(Color.WHITE);
 				g.drawRect(x, y, size, size);
@@ -250,7 +293,6 @@ public class Ship {
 			int personX = x+size/2-(person.getWidth()), personY = y+size/2-person.getHeight();
 			if (module.isEmployed() && module.isEmployable())
 				g.drawImage(person, personX, personY, person.getWidth()*2, person.getHeight()*2, null);
-			ind++;
 		}
 		if (mouseDown && !game.isLeftMouseDown()) {
 			mouseDown = false;
@@ -448,6 +490,12 @@ public class Ship {
 		} else {
 			return false;
 		}
+	}
+	
+	public void unemploy() {
+		this.employedPopulation--;
+		if (this.employedPopulation < 0)
+			this.employedPopulation = 0;
 	}
 	
 	public String toString() {

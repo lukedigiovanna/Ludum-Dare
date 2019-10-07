@@ -19,9 +19,13 @@ public class SimpleHydrolysisModule extends ShipModule {
 		this.getShip().addWater(water);
 	}
 	
+	public float waterProduction() {
+		return water*1/this.getGenerationCooldown();
+	}
+	
 	public void levelUp() {
 		this.addLevel();
-		water+=1.0f;
+		water+=(1.0f*this.getLevel());
 	}
 
 	@Override

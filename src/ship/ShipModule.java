@@ -1,5 +1,6 @@
 package ship;
 
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 public abstract class ShipModule {
@@ -11,12 +12,21 @@ public abstract class ShipModule {
 	private float tickingTimer;
 	private Ship myShip;
 	private float powerUse;
+	private Point relativePosition;
+	private int value = 0;
 	
 	public ShipModule(Ship inShip, float generationCooldown, float powerUse)	{
 		myShip = inShip;
 		this.generationCooldown = generationCooldown;
 		this.tickingTimer = generationCooldown;
 		this.powerUse = powerUse;
+		this.relativePosition = new Point(0,0);
+		value += this.getInitialPrice();
+	}
+	
+	public void setRelativePosition(int dx, int dy) {
+		this.relativePosition.x = dx;
+		this.relativePosition.y = dy;
 	}
 	
 	public float getGenerationCooldown() {
@@ -25,6 +35,7 @@ public abstract class ShipModule {
 	
 	public void unemploy() {
 		employed = false;
+		this.getShip().unemploy();
 	}
 	
 	public void setEmployable(boolean bo) {
@@ -81,7 +92,12 @@ public abstract class ShipModule {
 	}
 	
 	public void addLevel() {
+		this.value += this.getUpgradePrice();
 		this.level++;
+	}
+	
+	public int getSellValue() {
+		return (int)(this.value * 0.6);
 	}
 	
 	public abstract void levelUp();
@@ -89,6 +105,10 @@ public abstract class ShipModule {
 	
 	protected abstract void generateResource();
 	public abstract BufferedImage getImage();
+	
+	public Point getRelativePosition() {
+		return this.relativePosition;
+	}
 	
 	public float powerProduction() {
 		return 0;
@@ -103,7 +123,7 @@ public abstract class ShipModule {
 	}
 	
 	public float powerUse() {
-		return 0;
+		return this.powerUse*(1/this.generationCooldown);
 	}
 	
 	public float scrapsProduction() {

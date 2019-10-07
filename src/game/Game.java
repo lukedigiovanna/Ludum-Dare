@@ -239,18 +239,97 @@ public class Game {
 				g.setColor(Color.BLACK);
 				g.setFont(new Font("Arial",Font.PLAIN,12));
 				g.drawString("back", backX+backW/2-g.getFontMetrics().stringWidth("back")/2, backY+14);
+				//draw the name
+				y+=50;
+				ShipModule mod = selectedModule;
+				g.setColor(Color.LIGHT_GRAY);
+				g.setFont(new Font("Arial",Font.PLAIN,18));
+				g.drawString(mod.getName(),shopLeft+shopWidth/2-g.getFontMetrics().stringWidth(mod.getName())/2,y+16);
 				String[] info = {
-						"Power Prod: "+selectedModule.powerProduction()+ "kJ",
-						"Food Prod: "+selectedModule.foodProduction()+ "kg",
-						"Water Prod: "+selectedModule.waterProduction()+ "L",
-						"Scraps Prod: "+selectedModule.scrapsProduction(),
-						"Power Use: "+selectedModule.powerUse()+ "kJ",
+						"Power Prod: "+selectedModule.powerProduction()+ "kJ/day",
+						"Food Prod: "+selectedModule.foodProduction()+ "kg/day",
+						"Water Prod: "+selectedModule.waterProduction()+ "L/day",
+						"Scraps Prod: "+selectedModule.scrapsProduction() + "/day",
+						"Power Use: "+selectedModule.powerUse()+ "kJ/day",
 				};
-				y+=70;
+				y+=40;
 				g.setColor(Color.WHITE);
+				g.setFont(new Font("Arial",Font.PLAIN,12));
 				for (int dy = 0; dy < info.length; dy++) {
 					g.drawString(info[dy], x, y+dy*20);
 				}
+				y += info.length*20-10;
+				//upgrade button
+				int butX = x+15, butY = y+14, butW = 50, butH = 15;
+				int moX = this.getX(), moY = this.getY();
+				g.setColor(Color.BLACK);
+				g.fillRect(butX, butY, butW, butH);
+				g.setColor(Color.LIGHT_GRAY);
+				int price = mod.getUpgradePrice();
+				if (moX > butX && moX < butX+butW && moY > butY && moY < butY+butH) {
+					g.setColor(Color.GRAY);
+					if (this.isLeftMouseDown() && !mouseDown) {
+						mouseDown =true;
+						if (this.ship.getCurrentScraps() > price) {
+							mod.levelUp();
+							this.ship.useScraps(price);
+						}
+					}
+				}
+				g.fillRect(butX+1, butY+1, butW-2, butH-2);
+				g.setColor(Color.BLACK);
+				g.drawString("upgrade", butX+butW/2-g.getFontMetrics().stringWidth("upgrade")/2, butY+butH-3);
+				g.setColor(Color.RED);
+				if (ship.getCurrentScraps() >= price) //we can afford
+					g.setColor(Color.GREEN);
+				g.drawImage(SpriteCodex.SCRAPS_SYMBOL, butX+butW+5, butY+butH-3-12,12, 12, null);
+				g.drawString(""+price, butX+butW+5+12, butY+butH-3);
+				
+				//employ / unemploy
+				y += 30;
+				if (mod.isEmployable()) {
+					butX = x+15; butY = y+14; butW = 60; butH = 15;
+					g.setColor(Color.BLACK);
+					g.fillRect(butX, butY, butW, butH);
+					g.setColor(Color.LIGHT_GRAY);
+					if (moX > butX && moX < butX+butW && moY > butY && moY < butY+butH) {
+						g.setColor(Color.GRAY);
+						if (this.isLeftMouseDown() && !mouseDown) {
+							mouseDown =true;
+							if (mod.isEmployed())
+								mod.unemploy();
+							else
+								mod.employ();
+						}
+					}
+					g.fillRect(butX+1, butY+1, butW-2, butH-2);
+					g.setColor(Color.BLACK);
+					String s1 = "employ";
+					if (mod.isEmployed()) {
+						s1 = "unemploy";
+					}
+					g.drawString(s1, butX+butW/2-g.getFontMetrics().stringWidth(s1)/2, butY+butH-3);
+				}
+				y+=30;
+				//sell
+//				butX = x+15; butY = y+14; butW = 50; butH = 15;
+//				g.setColor(Color.BLACK);
+//				g.fillRect(butX, butY, butW, butH);
+//				g.setColor(Color.LIGHT_GRAY);
+//				if (moX > butX && moX < butX+butW && moY > butY && moY < butY+butH) {
+//					g.setColor(Color.GRAY);
+//					if (this.isLeftMouseDown() && !mouseDown) {
+//						mouseDown =true;
+//						ship.addScraps(mod.getSellValue());
+//						ship.removeModule(mod);
+//					}
+//				}
+//				g.fillRect(butX+1, butY+1, butW-2, butH-2);
+//				g.setColor(Color.RED);
+//				String s1 = "sell";
+//				g.drawString(s1, butX+butW/2-g.getFontMetrics().stringWidth(s1)/2, butY+butH-3);
+//				s1 = "+"+mod.getSellValue()+" scraps";
+//				g.drawString(s1, butX+butW+5, butY+butH-3);
 			}
 			if (this.mouseDown && !this.isLeftMouseDown()) {
 				this.mouseDown = false;
