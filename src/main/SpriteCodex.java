@@ -24,17 +24,14 @@ public class SpriteCodex {
 		SCRAPS_SYMBOL = Program.getImage("scraps_symbol"),
 		HAPPINESS_SYMBOL = Program.getImage("happiness_symbol"),
 		PERSON = Program.getImage("person");
-	public static final BufferedImage[]
-		POTATO_FARM = getArray("potato_farm");
 	
+	//animated ones
 	public static final BufferedImage[]
-		SIMPLE_HYDROLYSIS_MODULE = getArray("simple_hydrolysis_module");
-
-	public static final BufferedImage[]
-		SOLAR_PANEL = getArray("solar_panel");
-	
-	public static final BufferedImage[]
-		FOOD_SYNTHESIZER = getArray("food_synthesizer");
+		POTATO_FARM = getArray("potato_farm"),
+		SIMPLE_HYDROLYSIS_MODULE = getArray("simple_hydrolysis_module"),
+		SOLAR_PANEL = getArray("solar_panel"),
+		FOOD_SYNTHESIZER = getArray("food_synthesizer"),
+		SCRAPS_SYNTHESIZER = getArray("scrap_synthesizer");
 	
 	private static BufferedImage[] getArray(String folderName) {
 		List<BufferedImage> list = new ArrayList<BufferedImage>();

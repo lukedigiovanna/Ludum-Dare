@@ -7,10 +7,14 @@ import main.SpriteCodex;
 public class StorageModule extends ShipModule {
 	public static int price = 75;
 	
-	public StorageModule(Ship inShip) {
-		super(inShip, 10000.0f,0.5f);
-		this.getShip().addScrapsStorage(150);
+	public StorageModule() {
+		super(10000.0f,0.5f);
 		this.setEmployable(false);
+	}
+	
+	public void init() {
+		super.init();
+		this.getShip().addScrapsStorage(150);
 	}
 
 	@Override

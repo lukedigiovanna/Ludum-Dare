@@ -8,12 +8,16 @@ public class SimpleHydrolysisModule extends ShipModule {
 
 	public static int price = 150;
 	
-	public SimpleHydrolysisModule(Ship inShip) {
-		super(inShip, 0.5f, 4.0f);
-		this.getShip().addMaxWater(5.0f);
+	public SimpleHydrolysisModule() {
+		super(0.5f, 4.0f);
+	}
+	
+	public void init() {
+		super.init();
+		this.getShip().addMaxWater(4.0f);
 	}
 
-	private float water = 3.0f;
+	private float water = 1.5f;
 	@Override
 	protected void generateResource() {
 		this.getShip().addWater(water);
@@ -25,7 +29,7 @@ public class SimpleHydrolysisModule extends ShipModule {
 	
 	public void levelUp() {
 		this.addLevel();
-		water+=(1.0f*this.getLevel());
+		water+=(0.75f*this.getLevel());
 	}
 
 	@Override

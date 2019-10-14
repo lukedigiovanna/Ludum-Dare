@@ -8,9 +8,13 @@ public class FoodSynthesizerModule extends ShipModule {
 
 	public static int price = 500;
 	
-	public FoodSynthesizerModule(Ship inShip) {
-		super(inShip, 0.25f, 6.0f);
-		this.getShip().addMaxFood(20.0f);
+	public FoodSynthesizerModule() {
+		super(0.25f, 6.0f);
+	}
+	
+	public void init() {
+		super.init();
+		this.getShip().addMaxFood(10.0f);
 	}
 
 	@Override

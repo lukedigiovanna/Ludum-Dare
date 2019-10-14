@@ -8,11 +8,15 @@ public class SuperHydrolysisModule extends ShipModule {
 
 	public static int price = 600;
 	
-	public SuperHydrolysisModule(Ship inShip) {
-		super(inShip, 0.25f, 8.5f);
-		this.getShip().addMaxWater(15.0f);
+	public SuperHydrolysisModule() {
+		super(0.25f, 8.5f);
 	}
 
+	public void init() {
+		super.init();
+		this.getShip().addMaxWater(15.0f);
+	}
+	
 	@Override
 	public int getInitialPrice() {
 		return price;

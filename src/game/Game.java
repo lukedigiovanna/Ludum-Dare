@@ -246,11 +246,11 @@ public class Game {
 				g.setFont(new Font("Arial",Font.PLAIN,18));
 				g.drawString(mod.getName(),shopLeft+shopWidth/2-g.getFontMetrics().stringWidth(mod.getName())/2,y+16);
 				String[] info = {
-						"Power Prod: "+selectedModule.powerProduction()+ "kJ/day",
-						"Food Prod: "+selectedModule.foodProduction()+ "kg/day",
-						"Water Prod: "+selectedModule.waterProduction()+ "L/day",
+						"Power Prod: "+selectedModule.powerProduction()+ " kW/day",
+						"Food Prod: "+selectedModule.foodProduction()+ " kg/day",
+						"Water Prod: "+selectedModule.waterProduction()+ " L/day",
 						"Scraps Prod: "+selectedModule.scrapsProduction() + "/day",
-						"Power Use: "+selectedModule.powerUse()+ "kJ/day",
+						"Power Use: "+selectedModule.powerUse()+ " kW/day",
 				};
 				y+=40;
 				g.setColor(Color.WHITE);
@@ -356,7 +356,7 @@ public class Game {
 	}
 	
 	private ShipModule selectedModule = null;
-	//
+	
 	public void setSelectedModule(ShipModule sel) {
 		this.selectedModule = sel;
 	}
@@ -470,37 +470,37 @@ public class Game {
 					bought = true;
 					switch (name) { 
 					case "Potato Farm":
-						ship.addModule(new PotatoFarmModule(ship));
+						ship.addModule(new PotatoFarmModule());
 						break;
 					case "Basic Hydrolysis":
-						ship.addModule(new SimpleHydrolysisModule(ship));
+						ship.addModule(new SimpleHydrolysisModule());
 						break;
 					case "Solar Panels":
-						ship.addModule(new SolarPanelModule(ship));
+						ship.addModule(new SolarPanelModule());
 						break;
 					case "Scrap Storage":
-						ship.addModule(new StorageModule(ship));
+						ship.addModule(new StorageModule());
 						break;
 					case "Game Room":
-						ship.addModule(new GameRoomModule(ship));
+						ship.addModule(new GameRoomModule());
 						break;
 					case "Living Quarters":
-						ship.addModule(new LivingQuartersModule(ship));
+						ship.addModule(new LivingQuartersModule());
 						break;
 					case "Food Synthesizer":
-						ship.addModule(new FoodSynthesizerModule(ship));
+						ship.addModule(new FoodSynthesizerModule());
 						break;
 					case "Super Hydrolysis":
-						ship.addModule(new SuperHydrolysisModule(ship));
+						ship.addModule(new SuperHydrolysisModule());
 						break;
 					case "Solar Reactor":
-						ship.addModule(new SolarReactorModule(ship));
+						ship.addModule(new SolarReactorModule());
 						break;
 					case "Park":
-						ship.addModule(new ParkModule(ship));
+						ship.addModule(new ParkModule());
 						break;
 					case "Scrap Synthesizer":
-						ship.addModule(new ScrapSynthesizerModule(ship));
+						ship.addModule(new ScrapSynthesizerModule());
 						break;
 					}
 					ship.useScraps(price);

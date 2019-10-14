@@ -7,14 +7,14 @@ import main.SpriteCodex;
 public class CenterModule extends ShipModule {
 	public static int price = 100;
 
-	public CenterModule(Ship inShip) {
-		super(inShip, 0.5f, 0.0f);
+	public CenterModule() {
+		super(0.5f, 0.0f);
 	}
 
 	@Override
 	protected void generateResource() {
 		this.getShip().addPower((float) (0.75f*this.getLevel()));
-		this.getShip().addFood((float) (1.0f*this.getLevel()));
+		this.getShip().addFood((float) (0.5f*this.getLevel()));
 		this.getShip().addScraps(5*this.getLevel());
 	}
 
@@ -23,7 +23,7 @@ public class CenterModule extends ShipModule {
 	}
 	
 	public float foodProduction() {
-		return 1.0f*getLevel()*1/this.getGenerationCooldown();
+		return 0.5f*getLevel()*1/this.getGenerationCooldown();
 	}
 	
 	public float scrapsProduction() {

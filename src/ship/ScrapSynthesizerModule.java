@@ -8,14 +8,14 @@ public class ScrapSynthesizerModule extends ShipModule {
 
 	public static int price = 200;
 	
-	public ScrapSynthesizerModule(Ship inShip) {
-		super(inShip, 1.0f, 10.0f);
+	public ScrapSynthesizerModule() {
+		super(0.1f, 10.0f);
 	}
 
 	@Override
 	public void levelUp() {
 		this.addLevel();
-		scraps+=20;
+		scraps+=2;
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class ScrapSynthesizerModule extends ShipModule {
 		return scraps * 1/getGenerationCooldown();
 	}
 
-	private int scraps = 20;
+	private int scraps = 2;
 	@Override
 	protected void generateResource() {
 		this.getShip().addScraps(scraps);
@@ -35,7 +35,7 @@ public class ScrapSynthesizerModule extends ShipModule {
 
 	@Override
 	public BufferedImage getImage() {
-		return SpriteCodex.SCRAP_SYNTHESIZER;
+		return SpriteCodex.get(SpriteCodex.SCRAPS_SYNTHESIZER, this.getGenerationPercent());
 	}
 
 }

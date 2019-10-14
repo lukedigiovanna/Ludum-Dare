@@ -8,8 +8,12 @@ public class SolarPanelModule extends ShipModule {
 
 	public static int price = 200;
 	
-	public SolarPanelModule(Ship inShip) {
-		super(inShip, 0.1f,0.0f);
+	public SolarPanelModule() {
+		super(0.1f,0.0f);
+	}
+	
+	public void init() {
+		super.init();
 		this.getShip().addMaxPower(10.0f);
 	}
 

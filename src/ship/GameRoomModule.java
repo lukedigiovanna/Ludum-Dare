@@ -7,8 +7,8 @@ import main.SpriteCodex;
 public class GameRoomModule extends ShipModule {
 	public static int price = 250;
 	
-	public GameRoomModule(Ship inShip) {
-		super(inShip,1.0f,0.5f);
+	public GameRoomModule() {
+		super(1.0f,0.5f);
 		this.setEmployable(false);
 	}
 

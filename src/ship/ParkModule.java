@@ -8,8 +8,8 @@ public class ParkModule extends ShipModule {
 
 	public static int price = 400;
 	
-	public ParkModule(Ship inShip) {
-		super(inShip, 1.0f, 1.0f);
+	public ParkModule() {
+		super(1.0f, 1.0f);
 	}
 
 	@Override

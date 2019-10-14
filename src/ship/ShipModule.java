@@ -11,17 +11,26 @@ public abstract class ShipModule {
 	private float generationCooldown; //how many days
 	private float tickingTimer;
 	private Ship myShip;
-	private float powerUse;
+	private float powerUse; //per day
 	private Point relativePosition;
 	private int value = 0;
 	
-	public ShipModule(Ship inShip, float generationCooldown, float powerUse)	{
-		myShip = inShip;
+	public ShipModule(float generationCooldown, float powerUse)	{
 		this.generationCooldown = generationCooldown;
 		this.tickingTimer = generationCooldown;
 		this.powerUse = powerUse;
 		this.relativePosition = new Point(0,0);
 		value += this.getInitialPrice();
+	}
+	
+	//optionally overriden
+	public void init() {
+		if (myShip == null)
+			throw new NullPointerException("Module tried to initialize without a ship reference");
+	}
+	
+	public void setShip(Ship inShip) {
+		myShip = inShip;
 	}
 	
 	public void setRelativePosition(int dx, int dy) {
@@ -123,7 +132,7 @@ public abstract class ShipModule {
 	}
 	
 	public float powerUse() {
-		return this.powerUse*(1/this.generationCooldown);
+		return this.powerUse;
 	}
 	
 	public float scrapsProduction() {

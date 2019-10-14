@@ -10,6 +10,7 @@ import java.util.List;
 
 import game.Game;
 import misc.MathUtils;
+import main.Program;
 import main.SpriteCodex;
 
 public class Ship {
@@ -23,7 +24,7 @@ public class Ship {
 											//any added is from modules
 	
 	private float maxWater = 10.0f, water = 10.0f; //available water in litres
-	private final float waterConsumedPerPerson = 1.0f; //per day
+	private final float waterConsumedPerPerson = 1.5f; //per day
 	
 	private float maxFood = 10.0f, food = 10.0f; //kilograms of food
 	private final float foodConsumedPerPerson = 1.00f; //per day
@@ -46,7 +47,8 @@ public class Ship {
 	public Ship(Game game) {
 		this.game = game;
 		modules = new ArrayList<ShipModule>();
-		this.modules.add(new CenterModule(this));
+		this.modules.add(new CenterModule());
+		this.modules.get(0).setShip(this);
 		this.modules.get(0).employ();
 	}
 	
@@ -57,6 +59,8 @@ public class Ship {
 	
 	public void addModule(ShipModule mod) {
 		//wait for mouse input
+		mod.setShip(this);
+		mod.init();
 		queueModule(mod);
 	}
 	
@@ -307,10 +311,10 @@ public class Ship {
 		g.fillRect(x, y, width, height);
 		g.setColor(color);
 		g.fillRect(x, y, (int)(width * percent), height);
-		if(game.getX()>x && game.getX()<x+width&&game.getY()>y &&game.getY()<y+height)	{
-			g.setColor(Color.black);
-			g.drawString((int)(percent*100)+"%", x+width/2-5, y+12);
-		}
+//		if(game.getX()>x && game.getX()<x+width&&game.getY()>y &&game.getY()<y+height)	{
+//			g.setColor(Color.black);
+//			g.drawString((int)(percent*100)+"%", x+width/2-5, y+12);
+//		}
 	}
 	
 	public List<ShipModule> getModules() {
@@ -324,23 +328,33 @@ public class Ship {
 	public void drawBars(Graphics g, int x, int y) {
 		int initX = x, initY = y;
 		//energy then water then food then scraps
+		int mx = this.game.getX(), my = this.game.getY();
 		int height = 20;
+		String info = "none";
 		int barLength = 55;
 		g.drawImage(SpriteCodex.POWER_SYMBOL, x, y, height, height, null);
 		x += 25;
 		this.drawBar(g,x,y,barLength,height,this.getPowerPercent(),Color.YELLOW);
+		if (mx > x && mx < x + barLength && my > y && my < y + barLength)
+			info = "power";
 		x += 60;
 		g.drawImage(SpriteCodex.WATER_SYMBOL, x, y, height, height, null);
 		x += 25;
 		this.drawBar(g,x,y,barLength,height,this.getWaterPercent(),Color.BLUE);
+		if (mx > x && mx < x + barLength && my > y && my < y + barLength)
+			info = "water";
 		x += 60;
 		g.drawImage(SpriteCodex.FOOD_SYMBOL, x, y, height, height, null);
 		x += 25;
 		this.drawBar(g, x, y, barLength, height, this.getFoodPercent(), Color.ORANGE);
+		if (mx > x && mx < x + barLength && my > y && my < y + barLength)
+			info = "food";
 		x+= 60;
 		g.drawImage(SpriteCodex.HAPPINESS_SYMBOL, x, y, height, height, null);
 		x+=25;
-		this.drawBar(g, x, y, barLength, height, this.happiness, Color.GREEN);
+		Color happinessColor = Program.fromLoop(this.getHappinessPercent(), Color.RED, Color.YELLOW,Color.GREEN);
+		this.drawBar(g, x, y, barLength, height, this.happiness, happinessColor);
+		System.out.println(happinessColor.toString());
 		x+=60;
 		g.drawImage(SpriteCodex.SCRAPS_SYMBOL, x, y, height, height, null);
 		g.setColor(Color.WHITE);
@@ -372,6 +386,106 @@ public class Ship {
 		g.setColor(Color.RED);
 		y += 21;
 		g.drawString("Unemployed: "+(population-this.employedPopulation), x, y+18);
+	
+		if (!info.contentEquals("none"))
+			this.drawInfoBox(g, info, mx+10, my+10);
+	}
+	
+	public void drawInfoBox(Graphics g, String infoType, int left, int top) {
+		String name = "";
+		String storage = "xx/xxx <unit>";
+		String consumption = "xx / day";
+		String production = " xx / day";
+		String netProduction = " xx / day"; //production - consumption
+		switch (infoType) {
+		case "power":
+			name = "Power";
+			storage = MathUtils.round(this.power, 0.01) + "/" + MathUtils.round(this.maxPower,0.01) + " kW";
+			consumption = MathUtils.round(this.getPowerConsumption(),0.01)+" kW/day";
+			production = MathUtils.round(this.getPowerProduction(),0.01)+" kW/day";
+			netProduction = MathUtils.round(this.getPowerProduction()-this.getPowerConsumption(),0.01) + " kW/day";
+			break;
+		case "water":
+			name = "Water";
+			storage = MathUtils.round(this.water,0.01) + "/" +MathUtils.round(this.maxWater,0.01) + "L";
+			consumption = MathUtils.round(this.getWaterConsumption(),0.01) +" L/day";
+			production = MathUtils.round(this.getWaterProduction(),0.01) +" L/day";
+			netProduction = MathUtils.round(this.getWaterProduction()-this.getWaterConsumption(),0.01) + " L/day";
+			break;
+		case "food":
+			name = "Food";
+			storage = MathUtils.round(this.food,0.01)+"/"+MathUtils.round(this.maxFood,0.01)+ " kg";
+			consumption = MathUtils.round(this.getFoodConsumption(),0.01)+" kg/day";
+			production = MathUtils.round(this.getFoodProduction(),0.01)+" kg/day";
+			netProduction = MathUtils.round(this.getFoodProduction()-this.getFoodConsumption(),0.01)+ " kg/day";
+			break;
+		}
+		
+		int width = 150;
+		int height = 100;
+		g.setColor(Color.BLACK);
+		g.fillRect(left-2, top-2, width+4, height+4);
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(left, top, width, height);
+		g.setFont(new Font("Arial",Font.BOLD,14));
+		int y = top+20;
+		g.setColor(Color.WHITE);
+		g.drawString(name, left+width/2-g.getFontMetrics().stringWidth(name)/2, y);
+		y+=18;
+		g.setFont(new Font("Arial",Font.BOLD,12));
+		int x = left+5;
+		g.drawString("Storage: "+storage, x, y);
+		y+=16;
+		g.drawString("Consumption: "+consumption, x, y);
+		y+=16;
+		g.drawString("Production: "+production, x, y);
+		y+=16;
+		g.drawString("Net Prod.: "+netProduction, x, y);
+	}
+	
+	public float getPowerConsumption() {
+		float sum = 0;
+		for (ShipModule mod : modules) 
+			if (mod.isEmployed())
+				sum += mod.powerUse();
+		sum += this.powerDepletionRate;
+		return sum;
+	}
+	
+	public float getPowerProduction() {
+		float sum = 0;
+		for (ShipModule mod : modules) 
+			if (mod.isEmployed())
+				sum += mod.powerProduction();
+		return sum;
+	}
+	
+	public float getWaterConsumption() {
+		float sum = 0;
+//		for (ShipModule mod : modules) 
+//			sum += mod.waterConsumption();
+		sum = this.waterConsumedPerPerson*this.population;
+		return sum;
+	}
+	
+	public float getWaterProduction() {
+		float sum = 0;
+		for (ShipModule mod : modules) 
+			if (mod.isEmployed())
+				sum += mod.waterProduction();
+		return sum;
+	}
+	
+	public float getFoodConsumption() {
+		return this.foodConsumedPerPerson*this.population;
+	}
+	
+	public float getFoodProduction() {
+		float sum = 0;
+		for (ShipModule mod : modules) 
+			if (mod.isEmployed())
+				sum += mod.foodProduction();
+		return sum;
 	}
 	
 	public boolean hasPower(float amt) {
@@ -405,6 +519,10 @@ public class Ship {
 	
 	public void addHappiness(float val) {
 		this.happiness = MathUtils.max(this.happiness+val, 1.0f);
+	}
+	
+	public float getHappinessPercent() {
+		return this.happiness/1.0f;
 	}
 	
 	public float getCurrentPower() {
