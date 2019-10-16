@@ -43,7 +43,7 @@ public class Ship {
 	private Game game;
 	
 	private PlanetTimer pt = new PlanetTimer(this);
-	//f
+
 	public Ship(Game game) {
 		this.game = game;
 		modules = new ArrayList<ShipModule>();
@@ -354,7 +354,6 @@ public class Ship {
 		x+=25;
 		Color happinessColor = Program.fromLoop(this.getHappinessPercent(), Color.RED, Color.YELLOW,Color.GREEN);
 		this.drawBar(g, x, y, barLength, height, this.happiness, happinessColor);
-		System.out.println(happinessColor.toString());
 		x+=60;
 		g.drawImage(SpriteCodex.SCRAPS_SYMBOL, x, y, height, height, null);
 		g.setColor(Color.WHITE);
